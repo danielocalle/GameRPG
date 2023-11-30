@@ -2,10 +2,10 @@
 
 //#include <include/SFML/Graphics.hpp>
 
-class Ball : public sf::CircleShape
+class Player : public sf::CircleShape
 {
 public:
-	Ball(const sf::Vector2f& pos, const float &radius) : 
+	Player(const sf::Vector2f& pos, const float &radius) : 
 		sf::CircleShape(radius)
 	{
 		//this->setFillColor(color);

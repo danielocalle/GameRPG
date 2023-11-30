@@ -2,10 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 
-class Paddle : public sf::RectangleShape
+class Border : public sf::RectangleShape
 {
 public:
-	Paddle(const sf::Vector2f& pos, const sf::Vector2f& size, const sf::Color& color) :
+	Border(const sf::Vector2f& pos, const sf::Vector2f& size, const sf::Color& color) :
 		RectangleShape(size)
 	{
 		this->setFillColor(color);

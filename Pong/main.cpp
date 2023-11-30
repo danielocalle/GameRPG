@@ -7,7 +7,7 @@
 //#include <SFML/Graphics.hpp>
 //#include <iostream>
 //#include <windows.h>
-//#include "Paddle.h"
+//#include "Border.h"
 //#include "Ball.h"
 //
 //int main()
@@ -17,14 +17,14 @@
 //	
 //	sf::View camera{ {0,0}, static_cast<sf::Vector2f>(window.getSize()) };
 //
-//	Paddle leftPaddle(sf::Vector2f(0, 0), sf::Vector2f(25, 800), sf::Color::Magenta),
-//		rightPaddle(sf::Vector2f(975, 0), sf::Vector2f(25, 350), sf::Color::Magenta), 
-//		rightBotPaddle(sf::Vector2f(975, 450), sf::Vector2f(25, 350), sf::Color::Magenta),
-//		upperPaddle(sf::Vector2f(25, 0), sf::Vector2f(950, 25), sf::Color::Magenta),
-//		lowerPaddle(sf::Vector2f(25, 775), sf::Vector2f(950, 25), sf::Color::Magenta);
+//	Border leftBorder(sf::Vector2f(0, 0), sf::Vector2f(25, 800), sf::Color::Magenta),
+//		rightBorder(sf::Vector2f(975, 0), sf::Vector2f(25, 350), sf::Color::Magenta), 
+//		rightBotBorder(sf::Vector2f(975, 450), sf::Vector2f(25, 350), sf::Color::Magenta),
+//		upperBorder(sf::Vector2f(25, 0), sf::Vector2f(950, 25), sf::Color::Magenta),
+//		lowerBorder(sf::Vector2f(25, 775), sf::Vector2f(950, 25), sf::Color::Magenta);
 //
 //	Ball gameBall(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2),
-//		leftPaddle.getSize().y / 20, sf::Color::Blue);
+//		leftBorder.getSize().y / 20, sf::Color::Blue);
 //
 //	// Set the Mario texture for the game ball
 //
@@ -55,22 +55,22 @@
 //
 //		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 //		{
-//			//p1Paddle.move(0, 0.05);
+//			//p1Border.move(0, 0.05);
 //			gameBall.move(0, 0.05);
 //		}
 //		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 //		{
-//			//p1Paddle.move(0, -0.05);
+//			//p1Border.move(0, -0.05);
 //			gameBall.move(0, -0.05);
 //		}
 //		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 //		{
-//			//p2Paddle.move(0, 0.05);
+//			//p2Border.move(0, 0.05);
 //			gameBall.move(-0.05, 0);
 //		}
 //		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 //		{
-//			//p2Paddle.move(0, -0.05);
+//			//p2Border.move(0, -0.05);
 //			gameBall.move(0.05, 0);
 //		}
 //
@@ -78,29 +78,29 @@
 //
 //		/*gameBall.move(0.02 * directionX, 0.02 * directionY);*/
 //
-//		if (rightPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+//		if (rightBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
 //		{
 //			gameBall.move(-0.1, 0);
 //			//directionX *= -1;
 //			//directionY *= -1;
 //		}
-//		if (rightBotPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+//		if (rightBotBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
 //		{
 //			gameBall.move(-0.1, 0);
 //			//directionX *= -1;
 //			//directionY *= -1;
 //		}
-//		if (leftPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+//		if (leftBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
 //		{
 //			gameBall.move(0.1, 0);
 //			//directionX *= -1;
 //			//directionY *= -1;
 //		}
-//		if (upperPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+//		if (upperBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
 //		{
 //			gameBall.move(0, 0.1);
 //		}
-//		if (lowerPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+//		if (lowerBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
 //		{
 //			gameBall.move(0, -0.1);
 //		}
@@ -116,11 +116,11 @@
 //		//window.setView(camera);
 //
 //		window.clear();
-//		window.draw(leftPaddle);
-//		window.draw(rightPaddle);
-//		window.draw(rightBotPaddle);
-//		window.draw(upperPaddle);
-//		window.draw(lowerPaddle);
+//		window.draw(leftBorder);
+//		window.draw(rightBorder);
+//		window.draw(rightBotBorder);
+//		window.draw(upperBorder);
+//		window.draw(lowerBorder);
 //		window.draw(gameBall);
 //		//window.draw(shape);
 //		window.display();
@@ -132,22 +132,22 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Paddle.h"
-#include "Ball.h"
+#include "Border.h"
+#include "Player.h"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1000, 800), "GameTest");
 
     sf::View camera{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
 
-    Paddle leftPaddle(sf::Vector2f(0, 0), sf::Vector2f(25, 800), sf::Color::Magenta),
-        rightPaddle(sf::Vector2f(975, 0), sf::Vector2f(25, 350), sf::Color::Magenta),
-        rightBotPaddle(sf::Vector2f(975, 450), sf::Vector2f(25, 350), sf::Color::Magenta),
-        upperPaddle(sf::Vector2f(25, 0), sf::Vector2f(950, 25), sf::Color::Magenta),
-        lowerPaddle(sf::Vector2f(25, 775), sf::Vector2f(950, 25), sf::Color::Magenta),
+    Border leftBorder(sf::Vector2f(0, 0), sf::Vector2f(25, 800), sf::Color::Magenta),
+        rightBorder(sf::Vector2f(975, 0), sf::Vector2f(25, 350), sf::Color::Magenta),
+        rightBotBorder(sf::Vector2f(975, 450), sf::Vector2f(25, 350), sf::Color::Magenta),
+        upperBorder(sf::Vector2f(25, 0), sf::Vector2f(950, 25), sf::Color::Magenta),
+        lowerBorder(sf::Vector2f(25, 775), sf::Vector2f(950, 25), sf::Color::Magenta),
         squareWall(sf::Vector2f(550, 350), sf::Vector2f(100, 100), sf::Color::Cyan);
 
-    Ball gameBall(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2),
+    Player gameBall(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2),
         25.0f);  // Assuming Ball inherits from sf::CircleShape
 
     sf::Texture texture;
@@ -176,36 +176,38 @@ int main() {
             gameBall.move(-0.05, 0);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            gameBall.move(0.05, 0);
+            
+            
+            //gameBall.move(0.05, 0);
         }
 
         // Collision with walls
 
         //if ()
 
-        if (rightPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+        if (rightBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
             	gameBall.move(-0.05, 0);
             	//directionX *= -1;
             	//directionY *= -1;
             }
-            if (rightBotPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            if (rightBotBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
             	gameBall.move(-0.05, 0);
             	//directionX *= -1;
             	//directionY *= -1;
             }
-            if (leftPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            if (leftBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
             	gameBall.move(0.05, 0);
             	//directionX *= -1;
             	//directionY *= -1;
             }
-            if (upperPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            if (upperBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
             	gameBall.move(0, 0.05);
             }
-            if (lowerPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            if (lowerBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
             	gameBall.move(0, -0.05);
             }
@@ -218,11 +220,11 @@ int main() {
 
         // Clear and draw
         window.clear();
-        window.draw(leftPaddle);
-        window.draw(rightPaddle);
-        window.draw(rightBotPaddle);
-        window.draw(upperPaddle);
-        window.draw(lowerPaddle);
+        window.draw(leftBorder);
+        window.draw(rightBorder);
+        window.draw(rightBotBorder);
+        window.draw(upperBorder);
+        window.draw(lowerBorder);
         window.draw(squareWall);
         window.draw(gameBall);
         window.display();
