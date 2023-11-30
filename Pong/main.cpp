@@ -144,10 +144,11 @@ int main() {
         rightPaddle(sf::Vector2f(975, 0), sf::Vector2f(25, 350), sf::Color::Magenta),
         rightBotPaddle(sf::Vector2f(975, 450), sf::Vector2f(25, 350), sf::Color::Magenta),
         upperPaddle(sf::Vector2f(25, 0), sf::Vector2f(950, 25), sf::Color::Magenta),
-        lowerPaddle(sf::Vector2f(25, 775), sf::Vector2f(950, 25), sf::Color::Magenta);
+        lowerPaddle(sf::Vector2f(25, 775), sf::Vector2f(950, 25), sf::Color::Magenta),
+        squareWall(sf::Vector2f(550, 350), sf::Vector2f(100, 100), sf::Color::Cyan);
 
     Ball gameBall(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2),
-        25.0f, sf::Color::Blue);  // Assuming Ball inherits from sf::CircleShape
+        25.0f);  // Assuming Ball inherits from sf::CircleShape
 
     sf::Texture texture;
     if (texture.loadFromFile("Textures/mario.png")) {
@@ -166,17 +167,48 @@ int main() {
 
         // Handle user input or game logic to move the object
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            gameBall.move(0, 0.5);
+            gameBall.move(0, 0.05);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            gameBall.move(0, -0.5);
+            gameBall.move(0, -0.05);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            gameBall.move(-0.5, 0);
+            gameBall.move(-0.05, 0);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            gameBall.move(0.5, 0);
+            gameBall.move(0.05, 0);
         }
+
+        // Collision with walls
+
+        //if ()
+
+        if (rightPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            {
+            	gameBall.move(-0.05, 0);
+            	//directionX *= -1;
+            	//directionY *= -1;
+            }
+            if (rightBotPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            {
+            	gameBall.move(-0.05, 0);
+            	//directionX *= -1;
+            	//directionY *= -1;
+            }
+            if (leftPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            {
+            	gameBall.move(0.05, 0);
+            	//directionX *= -1;
+            	//directionY *= -1;
+            }
+            if (upperPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            {
+            	gameBall.move(0, 0.05);
+            }
+            if (lowerPaddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
+            {
+            	gameBall.move(0, -0.05);
+            }
 
         // Update any game logic here
 
@@ -191,6 +223,7 @@ int main() {
         window.draw(rightBotPaddle);
         window.draw(upperPaddle);
         window.draw(lowerPaddle);
+        window.draw(squareWall);
         window.draw(gameBall);
         window.display();
     }
