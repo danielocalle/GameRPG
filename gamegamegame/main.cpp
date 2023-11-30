@@ -72,11 +72,6 @@ int main()
 
         // Clear and draw
         window.clear(sf::Color{ 75,76,76 });
-        /*window.draw(leftPaddle);
-        window.draw(rightPaddle);
-        window.draw(rightBotPaddle);
-        window.draw(upperPaddle);
-        window.draw(lowerPaddle);*/
         window.draw(mRoomTL);
         window.draw(mRoomTR);
         window.draw(mRoomLT);
