@@ -1,14 +1,13 @@
 #pragma once
 
-//#include <include/SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
-class Ball : public sf::CircleShape
+class Player : public sf::CircleShape
 {
 public:
-	Ball(const sf::Vector2f& pos, const float &radius) : 
+	Player(const sf::Vector2f& pos, const float &radius) :
 		sf::CircleShape(radius)
 	{
-		//this->setFillColor(color);
 		this->setPosition(pos);
 	}
 
@@ -27,7 +26,19 @@ public:
 		this->move
 	}*/
 
+
+
 private:
+
 	double xSpeed;
 	double ySpeed;
+
+	bool hasAxe;
+	bool hasPickaxe;
+	bool hasBucket;
+
+	int numberOfFish;
+	int numberOfWood;
+	int numberOfMetal;
+	int numberOfFuel;
 };
