@@ -9,14 +9,19 @@ int main()
 
     sf::View camera{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
 
-    Border leftPaddle(sf::Vector2f(0, 0), sf::Vector2f(25, 800), sf::Color::Magenta),
+    /*Border leftPaddle(sf::Vector2f(0, 0), sf::Vector2f(25, 800), sf::Color::Magenta),
         rightPaddle(sf::Vector2f(975, 0), sf::Vector2f(25, 350), sf::Color::Magenta),
         rightBotPaddle(sf::Vector2f(975, 450), sf::Vector2f(25, 350), sf::Color::Magenta),
-        upperPaddle(sf::Vector2f(25, 0), sf::Vector2f(950, 25), sf::Color::Magenta),
-        lowerPaddle(sf::Vector2f(25, 775), sf::Vector2f(950, 25), sf::Color::Magenta);
+        upperPaddle(sf::Vector2f(0, 0), sf::Vector2f(2000, 500), sf::Color::Magenta),
+        lowerPaddle(sf::Vector2f(0, 2000), sf::Vector2f(2000, 500), sf::Color::Magenta);*/
+
+    Border mRoomTL(sf::Vector2f(50, 0), sf::Vector2f(400, 50), sf::Color::Magenta), mRoomTR(sf::Vector2f(550, 0), sf::Vector2f(400, 50), sf::Color::Magenta),
+        mRoomLT(sf::Vector2f(0, 0), sf::Vector2f(50, 450), sf::Color::Magenta), mRoomLB(sf::Vector2f(0, 550), sf::Vector2f(50, 450), sf::Color::Magenta),
+        mRoomRT(sf::Vector2f(950, 0), sf::Vector2f(50, 450), sf::Color::Magenta), mRoomRB(sf::Vector2f(950, 550), sf::Vector2f(50, 450), sf::Color::Magenta),
+        mRoomBL(sf::Vector2f(50, 950), sf::Vector2f(400, 50), sf::Color::Magenta), mRoomBR(sf::Vector2f(550, 950), sf::Vector2f(400, 50), sf::Color::Magenta);
 
     Player gameBall(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2),
-        25.0f);  // Assuming Ball inherits from sf::CircleShape
+        35.0f);  // Assuming Ball inherits from sf::CircleShape
 
     sf::Texture texture;
     if (texture.loadFromFile("Textures/mario.png")) {
@@ -35,16 +40,16 @@ int main()
 
         // Handle user input or game logic to move the object
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            gameBall.move(0, 0.05);
+            gameBall.move(0, 0.1);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            gameBall.move(0, -0.05);
+            gameBall.move(0, -0.1);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            gameBall.move(-0.05, 0);
+            gameBall.move(-0.1, 0);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            gameBall.move(0.05, 0);
+            gameBall.move(0.1, 0);
         }
 
         // Update any game logic here
@@ -55,11 +60,19 @@ int main()
 
         // Clear and draw
         window.clear();
-        window.draw(leftPaddle);
+        /*window.draw(leftPaddle);
         window.draw(rightPaddle);
         window.draw(rightBotPaddle);
         window.draw(upperPaddle);
-        window.draw(lowerPaddle);
+        window.draw(lowerPaddle);*/
+        window.draw(mRoomTL);
+        window.draw(mRoomTR);
+        window.draw(mRoomLT);
+        window.draw(mRoomLB);
+        window.draw(mRoomRT);
+        window.draw(mRoomRB);
+        window.draw(mRoomBL);
+        window.draw(mRoomBR);
         window.draw(gameBall);
         window.display();
     }
