@@ -21,6 +21,35 @@ public:
 		return sf::Vector2f(this->xSpeed, this->ySpeed);
 	}
 
+	double getXspeed(void)
+	{
+		return this->xSpeed;
+	}
+
+	double getYspeed(void)
+	{
+		return this->ySpeed;
+	}
+
+	void setSpeed(double newX, double newY)
+	{
+		this->xSpeed = newX;
+		this->ySpeed = newY;
+		this->move(sf::Vector2f(this->xSpeed, this->ySpeed));
+	}
+
+	void setXspeed(double newX)
+	{
+		this->xSpeed = newX;
+		this->move(sf::Vector2f(this->xSpeed, this->ySpeed));
+	}
+
+	void setYspeed(double newY)
+	{
+		this->ySpeed = newY;
+		this->move(sf::Vector2f(this->xSpeed, this->ySpeed));
+	}
+
 	/*void pMove(void)
 	{
 		this->move

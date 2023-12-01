@@ -167,18 +167,18 @@ int main() {
 
         // Handle user input or game logic to move the object
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            gameBall.move(0, 0.05);
+            gameBall.setYspeed(0.05);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            gameBall.move(0, -0.05);
+            gameBall.setYspeed(-0.05);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            gameBall.move(-0.05, 0);
+            gameBall.setXspeed(-0.05);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             
             
-            //gameBall.move(0.05, 0);
+            gameBall.setXspeed(0.05);
         }
 
         // Collision with walls
@@ -187,29 +187,31 @@ int main() {
 
         if (rightBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
-            	gameBall.move(-0.05, 0);
+            //sf::Vector2f(gameBall.getPosition());
+
+            	gameBall.setSpeed(-1 * gameBall.getXspeed(), -1 * gameBall.getYspeed());
             	//directionX *= -1;
             	//directionY *= -1;
             }
             if (rightBotBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
-            	gameBall.move(-0.05, 0);
+                gameBall.setSpeed(-1 * gameBall.getXspeed(), gameBall.getYspeed());
             	//directionX *= -1;
             	//directionY *= -1;
             }
             if (leftBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
-            	gameBall.move(0.05, 0);
+                gameBall.setSpeed(-1 * gameBall.getXspeed(), -1 * gameBall.getYspeed());
             	//directionX *= -1;
             	//directionY *= -1;
             }
             if (upperBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
-            	gameBall.move(0, 0.05);
+                gameBall.setSpeed(-1 * gameBall.getXspeed(), -1 * gameBall.getYspeed());
             }
             if (lowerBorder.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
             {
-            	gameBall.move(0, -0.05);
+                gameBall.setSpeed(0, 0);
             }
 
         // Update any game logic here
