@@ -36,6 +36,7 @@ public:
 		this->xSpeed = newX;
 		this->ySpeed = newY;
 		this->move(sf::Vector2f(this->xSpeed, this->ySpeed));
+		std::cout << "X speed: " << this->xSpeed << std::endl << "Y speed: " << this->ySpeed << std::endl << std::endl;
 	}
 
 	void setXspeed(double newX)
