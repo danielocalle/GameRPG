@@ -71,10 +71,30 @@ int main()
         std::cerr << "Failed to load texture!" << std::endl;
     }
 
+    sf::Font font;
+    sf::Text text;
+
+    if (font.loadFromFile("Fonts/arial.ttf"))
+    {
+        text.setFont(font);
+    }
+    else
+    {
+        std::cerr << "Failed to load texture!" << std::endl;
+    }
+
+    text.setString("Press \"x\" to Harvest Wood");
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Red);
+    text.setStyle(sf::Text::Bold);
+    text.setPosition({200,-400});
+
     character.setOutlineColor(sf::Color::Magenta);
     character.setOutlineThickness(2.f);
 
     window.setFramerateLimit(120);
+
+    Border test(sf::Vector2f(300, -300), sf::Vector2f(50, 50), sf::Color::Red);
 
     while (window.isOpen()) {
 
@@ -171,7 +191,11 @@ int main()
         {
             window.draw(i);
         }
+        if (character.getGlobalBounds().intersects(test.getGlobalBounds())) {
+            window.draw(text);
 
+        }
+        window.draw(test);
         window.draw(character);
         window.display();
     }
