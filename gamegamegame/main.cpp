@@ -83,18 +83,22 @@ int main()
         std::cerr << "Failed to load texture!" << std::endl;
     }
 
+    //text.setString("Press \"x\" to Harvest Wood");
     text.setString("Press \"x\" to Harvest Wood");
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::Red);
     text.setStyle(sf::Text::Bold);
-    text.setPosition({200,-400});
+    text.setPosition({-225,200});
 
     character.setOutlineColor(sf::Color::Magenta);
     character.setOutlineThickness(2.f);
 
     window.setFramerateLimit(120);
 
-    Border test(sf::Vector2f(300, -300), sf::Vector2f(50, 50), sf::Color::Red);
+    //const double HARVEST_DELAY = 1.0;
+    //double _lastHarvestTime = 0.0;
+
+    Border test(sf::Vector2f(-300, 300), sf::Vector2f(75, 75), sf::Color::Red);
 
     while (window.isOpen()) {
 
@@ -104,6 +108,13 @@ int main()
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
+        }
+        if (event.type == sf::Event::Resized)
+        {
+            //std::cout << "new width: " << event.size.width << std::endl;
+            //std::cout << "new height: " << event.size.height << std::endl;
+            camera.setSize(sf::Vector2f(event.size.width, event.size.height));
+            window.setView(camera);
         }
 
         velocity.y = 0.f;
@@ -177,6 +188,8 @@ int main()
             }
         }
 
+        text.setString(std::to_string(character.getWoodQuantity()));
+
         // Update any game logic here
         character.move(velocity);
 
@@ -185,16 +198,21 @@ int main()
         window.setView(camera);
 
         // Clear and draw
-        window.clear(sf::Color{ 75,76,76 });
+        window.clear(/*sf::Color{75,76,76}*/);
         
+        sf::Event eventHarvest;
+
         for (auto& i : walls)
         {
             window.draw(i);
         }
         if (character.getGlobalBounds().intersects(test.getGlobalBounds())) {
             window.draw(text);
-
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+                character.incrementWoodQuantity();
+            }
         }
+
         window.draw(test);
         window.draw(character);
         window.display();
