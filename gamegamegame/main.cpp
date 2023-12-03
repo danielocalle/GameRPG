@@ -217,6 +217,8 @@ int main()
         //window.clear(sf::Color{ 75,76,76 });
         window.clear();
 
+        sf::Event eventHarvest;
+
         window.draw(worldBackground);
 
         for (auto& i : walls)
