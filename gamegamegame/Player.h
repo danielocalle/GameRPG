@@ -13,8 +13,8 @@ public:
 		woodQuantity = 0.0;
 		stoneQuantity = 0;
 	}
-	Player(const sf::Vector2f& pos, const float& radius) :
-		sf::RectangleShape(pos)
+	Player(const sf::Vector2f& pos, const sf::Vector2f& size) :
+		sf::RectangleShape(size)
 	{
 		this->setPosition(pos);
 		hasAxe = false;
