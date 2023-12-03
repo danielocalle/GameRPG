@@ -82,6 +82,9 @@ int main()
     Player character(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), 
         sf::Vector2f(70,80));
 
+    // Centering the origin for easier mirroring of the character, for directional facing when moving 
+    character.setOrigin(sf::Vector2f(character.getSize().x / 2, character.getSize().y / 2));
+
     float dt;
     sf::Clock dt_clock;
 
@@ -166,6 +169,13 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             //character.move(0.1, 0);
             velocity.x += movementSpeed * dt;
+        }
+
+        if (velocity.x < 0) {
+            character.setScale(-1, 1);
+        }
+        if (velocity.x > 0) {
+            character.setScale(1, 1);
         }
 
         for (auto& wall : walls)
