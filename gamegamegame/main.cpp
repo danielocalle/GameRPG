@@ -3,9 +3,23 @@
 #include "SFML/Graphics.hpp"
 #include "Player.h"
 #include "Borders.h"
+#include "Game.h"
 
 int main()
 {
+    //Game wrapper;
+    //wrapper.runGame();
+    //wrapper.initWorld();
+    //wrapper.render();
+    sf::Texture worldBackgroundTexture;
+    worldBackgroundTexture.loadFromFile("Textures/PA9_BG_refit.png");
+    //worldBackgroundTexture.loadFromFile("Textures/tilecounter.png");
+
+    sf::Sprite worldBackground;
+    worldBackground.setTexture(worldBackgroundTexture);
+    worldBackground.setPosition(-1853, -1950);
+    worldBackground.setScale(3, 3);
+
     sf::RenderWindow window(sf::VideoMode(1000, 800), "GameTest");
 
     sf::View camera{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
@@ -31,6 +45,8 @@ int main()
     Border globalRight(sf::Vector2f(2250, -1500), sf::Vector2f(600, 4000), sf::Color{ 30,142,75 });
     Border globalTop(sf::Vector2f(-1850, -2000), sf::Vector2f(4700, 500), sf::Color{ 30,142,75 });
     Border globalBot(sf::Vector2f(-1850, 2500), sf::Vector2f(4700, 500), sf::Color{ 49,165,204 });
+    
+
 
     walls.push_back(mRoomTL);
     walls.push_back(mRoomTR);
@@ -165,8 +181,11 @@ int main()
         window.setView(camera);
 
         // Clear and draw
-        window.clear(sf::Color{ 75,76,76 });
-        
+        //window.clear(sf::Color{ 75,76,76 });
+        window.clear();
+
+        window.draw(worldBackground);
+
         for (auto& i : walls)
         {
             window.draw(i);

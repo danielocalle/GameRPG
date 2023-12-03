@@ -13,7 +13,13 @@ public:
 	}
 
 	void runGame();
+	void initWorld();
+	void render();
+	void renderWorld();
 
 private:
+	sf::RenderWindow* window;
 
+	sf::Texture worldBackgroundTexture;
+	sf::Sprite worldBackground;
 };
