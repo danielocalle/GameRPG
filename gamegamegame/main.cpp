@@ -12,7 +12,7 @@ int main()
     //wrapper.initWorld();
     //wrapper.render();
     sf::Texture worldBackgroundTexture;
-    worldBackgroundTexture.loadFromFile("Textures/PA9_BG_refit.png");
+    worldBackgroundTexture.loadFromFile("Textures/PA9_BG_refit2.png");
     //worldBackgroundTexture.loadFromFile("Textures/tilecounter.png");
 
     sf::Sprite worldBackground;
