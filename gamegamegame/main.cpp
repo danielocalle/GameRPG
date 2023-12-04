@@ -101,24 +101,42 @@ int main()
         std::cerr << "Failed to load texture!" << std::endl;
     }
 
-    sf::Font font;
-    sf::Text text;
+    Border test(sf::Vector2f(-1050, 75), sf::Vector2f(700, 700), sf::Color::White);
 
-    if (font.loadFromFile("Fonts/arial.ttf"))
+    sf::Texture treeTexture;
+    if (treeTexture.loadFromFile("Textures/treeForHarvestGood.png")) {
+        test.setTexture(&treeTexture);
+    }
+    else {
+        std::cerr << "Failed to load tree texture!" << std::endl;
+    }
+    
+
+    sf::Font font;
+    sf::Text woodText;
+    sf::Text woodQuantity;
+
+    if (font.loadFromFile("Fonts/dotumche-pixel.ttf"))
     {
-        text.setFont(font);
+        woodText.setFont(font);
+        woodQuantity.setFont(font);
     }
     else
     {
         std::cerr << "Failed to load texture!" << std::endl;
     }
 
+    woodQuantity.setCharacterSize(30);
+    woodQuantity.setFillColor(sf::Color::White);
+    woodQuantity.setStyle(sf::Text::Bold);
+    woodQuantity.setPosition({-950,750});
+
     //text.setString("Press \"x\" to Harvest Wood");
-    text.setString("Press \"x\" to Harvest Wood");
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::Red);
-    text.setStyle(sf::Text::Bold);
-    text.setPosition({-225,200});
+    woodText.setString("Hold \"x\" to Harvest Wood");
+    woodText.setCharacterSize(30);
+    woodText.setFillColor(sf::Color::White);
+    woodText.setStyle(sf::Text::Bold);
+    woodText.setPosition({-950,700});
 
     character.setOutlineColor(sf::Color::Magenta);
     character.setOutlineThickness(2.f);
@@ -127,8 +145,6 @@ int main()
 
     //const double HARVEST_DELAY = 1.0;
     //double _lastHarvestTime = 0.0;
-
-    Border test(sf::Vector2f(-300, 300), sf::Vector2f(75, 75), sf::Color::Red);
 
     while (window.isOpen()) {
 
@@ -228,7 +244,7 @@ int main()
             }
         }
 
-        text.setString(std::to_string(character.getWoodQuantity()));
+        woodQuantity.setString("Wood Quantity: " + std::to_string(character.getWoodQuantity()));
 
         // Update any game logic here
         character.move(velocity);
@@ -249,12 +265,12 @@ int main()
         }*/
 
         if (character.getGlobalBounds().intersects(test.getGlobalBounds())) {
-            window.draw(text);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
                 character.incrementWoodQuantity();
             }
         }
-
+        window.draw(woodText);
+        window.draw(woodQuantity);
         window.draw(test);
         window.draw(character);
         window.display();
