@@ -11,7 +11,7 @@ public:
 		hasPickaxe = false;
 		hasBoatPart = false;
 		woodQuantity = 0.0;
-		stoneQuantity = 0;
+		metalQuantity = 0;
 	}
 	Player(const sf::Vector2f& pos, const sf::Vector2f& size) :
 		sf::RectangleShape(size)
@@ -21,7 +21,7 @@ public:
 		hasPickaxe = false;
 		hasBoatPart = false;
 		woodQuantity = 0.0;
-		stoneQuantity = 0;
+		metalQuantity = 0;
 	}
 
 	void setTexture(const sf::Texture* texture)
@@ -37,11 +37,19 @@ public:
 		woodQuantity = woodQuantity + 0.01;
 	}
 
+	int getMetalQuantity() {
+		return metalQuantity;
+	}
+
+	void incrementMetalQuantity() {
+		metalQuantity = metalQuantity + 0.008;
+	}
+
 private:
 	bool hasAxe;
 	bool hasPickaxe;
 	bool hasBoatPart;
 
 	double woodQuantity;
-	int stoneQuantity;
+	double metalQuantity;
 };

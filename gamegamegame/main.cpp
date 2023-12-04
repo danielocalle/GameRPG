@@ -23,6 +23,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1100, 800), "GameTest");
 
     sf::View camera{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
+    //sf::View HUD{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
     
     std::vector<sf::RectangleShape> walls;
 
@@ -39,7 +40,7 @@ int main()
     // No longer needed, made longer borders following from the mRoom, might be better with performance as well
     //leftRoomRT(sf::Vector2f(0, -400), sf::Vector2f(50, 400), sf::Color{ 240,120,165 });
     //leftRoomRB(sf::Vector2f(0, 1000), sf::Vector2f(50, 450), sf::Color{ 140,120,165 });
-
+    
     // RIGHT ROOM BORDERS
     Border rightRoomT(sf::Vector2f(1015, -405), sf::Vector2f(1270, 70), sf::Color{ 240,120,165 }), 
         rightRoomB(sf::Vector2f(1015, 1425), sf::Vector2f(1270, 70), sf::Color{ 140,220,165 });
@@ -48,13 +49,16 @@ int main()
     //rightRoomLB(sf::Vector2f(950, 1000), sf::Vector2f(50, 450), sf::Color{ 140,120,165 });
     //rightRoomLT(sf::Vector2f(950, -400), sf::Vector2f(50, 400), sf::Color{ 240,120,165 }),
 
+    // LAVA BORDERS
+    Border lavaUpper(sf::Vector2f(-15, -1480), sf::Vector2f(1025, 90), sf::Color{ 240,120,165 }), 
+        lavaMiddle(sf::Vector2f(175, -1390), sf::Vector2f(640, 90), sf::Color{ 140,120,165 }),
+        lavaBottom(sf::Vector2f(370, -1300), sf::Vector2f(250, 100), sf::Color{ 240,120,165 });
+
     // GLOBAL BORDERS
     Border globalLeft(sf::Vector2f(-1885, -1500), sf::Vector2f(600, 3980), sf::Color{ 130,142,75 });
     Border globalRight(sf::Vector2f(2285, -1500), sf::Vector2f(600, 3980), sf::Color{ 130,142,75 });
     Border globalTop(sf::Vector2f(-1885, -1980), sf::Vector2f(4770, 500), sf::Color{ 30,142,75 });
     Border globalBot(sf::Vector2f(-1885, 2480), sf::Vector2f(4770, 500), sf::Color{ 49,165,204 });
-    
-
 
     walls.push_back(mRoomTL);
     walls.push_back(mRoomTR);
@@ -74,6 +78,11 @@ int main()
 
     walls.push_back(rightRoomT);
     walls.push_back(rightRoomB);
+
+    walls.push_back(lavaUpper);
+    walls.push_back(lavaMiddle);
+    walls.push_back(lavaBottom);
+
     walls.push_back(globalLeft);
     walls.push_back(globalRight);
     walls.push_back(globalTop);
@@ -93,33 +102,67 @@ int main()
     const float movementSpeed = 450.f;
     sf::Vector2f velocity;
 
+    // PLAYER TEXTURE
     sf::Texture texture;
-    if (texture.loadFromFile("Textures/mario.png")) {
+    if (texture.loadFromFile("Textures/ncrguy.png")) {
         character.setTexture(&texture);
     }
     else {
         std::cerr << "Failed to load texture!" << std::endl;
     }
 
-    Border test(sf::Vector2f(-1050, 75), sf::Vector2f(700, 700), sf::Color::White);
+    // TREE TEXTURE
+    Border harvestTree(sf::Vector2f(-1050, 75), sf::Vector2f(700, 700), sf::Color::White);
 
     sf::Texture treeTexture;
     if (treeTexture.loadFromFile("Textures/treeForHarvestGood.png")) {
-        test.setTexture(&treeTexture);
+        harvestTree.setTexture(&treeTexture);
     }
     else {
         std::cerr << "Failed to load tree texture!" << std::endl;
     }
     
+    // METAL(MINES AREA SHIT) TEXTURE
+    Border harvestMetal(sf::Vector2f(1420, 75), sf::Vector2f(600,600), sf::Color::White);
+
+    sf::Texture metalTexture; // more code below needed
+
+
+
+    // COMPASS TEXTURE
+    Border compass(sf::Vector2f(0, 0), sf::Vector2f(150, 150), sf::Color::White);
+    
+    sf::Texture compassTexture;
+    if (compassTexture.loadFromFile("Textures/compass.png")) {
+        compass.setTexture(&compassTexture);
+    }
+    else {
+        std::cerr << "Failed to load compass texture!" << std::endl;
+    }
+
+    // SHIP TEXTURE
+    Border ship(sf::Vector2f(1300, 1600), sf::Vector2f(600, 300), sf::Color::White);
+
+    sf::Texture shipTexture;
+    if (shipTexture.loadFromFile("Textures/shipsand.png")) {
+        ship.setTexture(&shipTexture);
+    }
+    else {
+        std::cerr << "Failed to load ship texture!" << std::endl;
+    }
 
     sf::Font font;
     sf::Text woodText;
     sf::Text woodQuantity;
+    sf::Text metalText;
+    sf::Text metalQuantity;
 
     if (font.loadFromFile("Fonts/dotumche-pixel.ttf"))
     {
         woodText.setFont(font);
         woodQuantity.setFont(font);
+        metalText.setFont(font);
+        metalQuantity.setFont(font);
     }
     else
     {
@@ -131,12 +174,22 @@ int main()
     woodQuantity.setStyle(sf::Text::Bold);
     woodQuantity.setPosition({-950,750});
 
-    //text.setString("Press \"x\" to Harvest Wood");
+    metalQuantity.setCharacterSize(30);
+    metalQuantity.setFillColor(sf::Color::White);
+    metalQuantity.setStyle(sf::Text::Bold);
+    metalQuantity.setPosition({ 1450,750 });
+
     woodText.setString("Hold \"x\" to Harvest Wood");
     woodText.setCharacterSize(30);
     woodText.setFillColor(sf::Color::White);
     woodText.setStyle(sf::Text::Bold);
     woodText.setPosition({-950,700});
+
+    metalText.setString("Hold \"x\" to Harvest Metal");
+    metalText.setCharacterSize(30);
+    metalText.setFillColor(sf::Color::White);
+    metalText.setStyle(sf::Text::Bold);
+    metalText.setPosition({ 1450,700 });
 
     character.setOutlineColor(sf::Color::Magenta);
     character.setOutlineThickness(2.f);
@@ -188,10 +241,10 @@ int main()
         }
 
         if (velocity.x < 0) {
-            character.setScale(-1, 1);
+            character.setScale(1, 1);
         }
         if (velocity.x > 0) {
-            character.setScale(1, 1);
+            character.setScale(-1, 1);
         }
 
         for (auto& wall : walls)
@@ -246,8 +299,13 @@ int main()
 
         woodQuantity.setString("Wood Quantity: " + std::to_string(character.getWoodQuantity()));
 
+        metalQuantity.setString("Metal Quantity: " + std::to_string(character.getMetalQuantity()));
+
         // Update any game logic here
         character.move(velocity);
+
+        //window.setView(HUD);
+
 
         // Update the camera/view
         camera.setCenter(character.getPosition().x + 25, character.getPosition().y + 50);
@@ -259,20 +317,36 @@ int main()
 
         window.draw(worldBackground);
 
-        // draws borders to screen (not needed in final version, map shows "borders")
-        /*for (auto& i : walls)
-        {
-            window.draw(i);
-        }*/
+        compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
+        window.draw(compass);
 
-        if (character.getGlobalBounds().intersects(test.getGlobalBounds())) {
+        // draws borders to screen (not needed in final version, map shows "borders")
+        //for (auto& i : walls)
+        //{
+        //    window.draw(i);
+        //}
+
+        if (character.getGlobalBounds().intersects(harvestTree.getGlobalBounds())) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
                 character.incrementWoodQuantity();
             }
         }
+        if (character.getGlobalBounds().intersects(harvestMetal.getGlobalBounds())) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+                character.incrementMetalQuantity();
+            }
+        }
+
+        //window.draw(lavaUpper);
+        //window.draw(lavaMiddle);
+        //window.draw(lavaBottom);
+        window.draw(ship);
         window.draw(woodText);
+        window.draw(metalText);
         window.draw(woodQuantity);
-        window.draw(test);
+        window.draw(metalQuantity);
+        window.draw(harvestTree);
+        window.draw(harvestMetal);
         window.draw(character);
         window.display();
     }
