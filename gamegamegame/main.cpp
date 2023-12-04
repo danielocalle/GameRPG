@@ -17,7 +17,7 @@ int main()
 
     sf::Sprite worldBackground;
     worldBackground.setTexture(worldBackgroundTexture);
-    worldBackground.setPosition(-1853, -1950);
+    worldBackground.setPosition(-2143, -2450);
     worldBackground.setScale(3, 3);
 
     sf::RenderWindow window(sf::VideoMode(1100, 800), "GameTest");
@@ -243,6 +243,7 @@ int main()
 
         window.draw(worldBackground);
 
+        // draws borders to screen (not needed in final version, map shows "borders")
         /*for (auto& i : walls)
         {
             window.draw(i);
