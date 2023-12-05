@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <vector>
-#include <Windows.h>
 #include "SFML/Graphics.hpp"
 #include "Player.h"
 #include "Borders.h"

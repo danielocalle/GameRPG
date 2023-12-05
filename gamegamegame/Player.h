@@ -177,7 +177,7 @@ public:
 	}
 
 	bool isRepaired() {
-		if (fishThreshold() == true, ingotThreshold() == true, fuelThreshold() == true) {
+		if (fishThreshold() == true && ingotThreshold() == true && fuelThreshold() == true) {
 			return true;
 		}
 		else {
