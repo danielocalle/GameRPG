@@ -133,11 +133,13 @@ void Game::interactWithObjects()
     if (character.getGlobalBounds().intersects(harvestTree.getGlobalBounds()) && character.getHasAxe() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementWoodQuantity();
+            std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestMetal.getGlobalBounds()) && character.getHasPickaxe() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementMetalQuantity();
+            std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestIngot.getGlobalBounds()) && character.getMetalQuantity() >= 5
@@ -146,17 +148,20 @@ void Game::interactWithObjects()
             character.incrementIngotQuantity();
             character.setMetalQuantity(character.getMetalQuantity() - 5);
             character.setFuelQuantity(character.getFuelQuantity() - 1);
+            std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestFish.getGlobalBounds()) && character.getHasFishingRod() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementFishQuantity();
+            std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestFuel.getGlobalBounds()) && character.getHasBucket() == true
         && character.getFuelQuantity() < 10) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementFuelQuantity();
+            std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(axeBuried.getGlobalBounds()))

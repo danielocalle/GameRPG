@@ -18,6 +18,7 @@ void Border::enableCollision(Player player, sf::Vector2f& velocity) const
             && playerBounds.left + playerBounds.width > wallBounds.left)
         {
             velocity.y = 0.f;
+            std::cout << "Bottom collision works!" << std::endl;
         }
         // TOP COLLISION
         if (playerBounds.top > wallBounds.top
@@ -26,6 +27,7 @@ void Border::enableCollision(Player player, sf::Vector2f& velocity) const
             && playerBounds.left + playerBounds.width > wallBounds.left)
         {
             velocity.y = 0.f;
+            std::cout << "Top collision works!" << std::endl;
         }
         // RIGHT COLLISION
         if (playerBounds.left < wallBounds.left
@@ -34,6 +36,7 @@ void Border::enableCollision(Player player, sf::Vector2f& velocity) const
             && playerBounds.top + playerBounds.height > wallBounds.top)
         {
             velocity.x = 0.f;
+            std::cout << "Right collision works!" << std::endl;
         }
         // LEFT COLLISION
         if (playerBounds.left > wallBounds.left
@@ -42,6 +45,7 @@ void Border::enableCollision(Player player, sf::Vector2f& velocity) const
             && playerBounds.top + playerBounds.height > wallBounds.top)
         {
             velocity.x = 0.f;
+            std::cout << "Left collision works!" << std::endl;
         }
     }
 }
