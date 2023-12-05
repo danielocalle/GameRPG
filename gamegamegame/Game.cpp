@@ -105,6 +105,14 @@ void Game::runGame()
         fuelQuantity2.setString("Fuel: " + std::to_string(character.getFuelQuantity()));
         fishQuantity2.setString("Fish: " + std::to_string(character.getFishQuantity()));
 
+        shipIngotQuantity.setString(std::to_string(brokenShip.getIngotQuantity()) + "/50 Metal");
+        shipFuelQuantity.setString(std::to_string(brokenShip.getFuelQuantity()) + "/30 Fuel");
+        shipFishQuantity.setString(std::to_string(brokenShip.getFishQuantity()) + "/100 Fish");
+
+        shipIngotQuantity2.setString(std::to_string(brokenShip.getIngotQuantity()) + "/50 Metal");
+        shipFuelQuantity2.setString(std::to_string(brokenShip.getFuelQuantity()) + "/30 Fuel");
+        shipFishQuantity2.setString(std::to_string(brokenShip.getFishQuantity()) + "/100 Fish");
+
         interactWithObjects();
         drawObjects();
     }
@@ -174,6 +182,33 @@ void Game::interactWithObjects()
         {
             character.setHasPickaxe(true);
             character.setWoodQuantity(character.getWoodQuantity() - 25);
+        }
+    }
+
+    if (character.getGlobalBounds().intersects(ship.getGlobalBounds()))
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && (character.getFuelQuantity() >= 1 || character.getIngotQuantity() >= 1
+            || character.getFishQuantity() >= 1) && brokenShip.isRepaired() == false) 
+        {
+            if (brokenShip.fuelThreshold() == false && character.getFuelQuantity() >= 1)
+            {
+                character.setFuelQuantity(character.getFuelQuantity() - 1);
+                brokenShip.setFuelQuantity(brokenShip.getFuelQuantity() + 1);
+            }
+            if (brokenShip.ingotThreshold() == false && character.getIngotQuantity() >= 1)
+            {
+                character.setIngotQuantity(character.getIngotQuantity() - 1);
+                brokenShip.setIngotQuantity(brokenShip.getIngotQuantity() + 1);
+            }
+            if (brokenShip.fishThreshold() == false && character.getFishQuantity() >= 1)
+            {
+                character.setFishQuantity(character.getFishQuantity() - 1);
+                brokenShip.setFishQuantity(brokenShip.getFishQuantity() + 1);
+            }
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && brokenShip.isRepaired() == true)
+        {
+            /// teleport to ending room
         }
     }
 }
@@ -287,6 +322,8 @@ void Game::createText()
     temp += "Press \"X\" to pick up objects.\nHold \"X\" to harvest resources.\n\n";
     temp += "Stand on the magenta rectangle and\nPress \"X\" to teleport to spawn and\nbegin exploring.";
     gameStartInstructions.setString(temp);
+    shipRepairs.setString("Ship Repairs");
+    shipRepairs2.setString("Ship Repairs");
 }
 
 void Game::createBackground()
@@ -319,6 +356,24 @@ void Game::drawObjects()
     {
         fishingRodUI.setFillColor(sf::Color::White);
     }
+
+    if (brokenShip.fuelThreshold() == true)
+    {
+        shipFuelQuantity.setFillColor(sf::Color::Green);
+    }
+    if (brokenShip.fishThreshold() == true)
+    {
+        shipFishQuantity.setFillColor(sf::Color::Green);
+    }
+    if (brokenShip.ingotThreshold() == true)
+    {
+        shipIngotQuantity.setFillColor(sf::Color::Green);
+    }
+    if (brokenShip.isRepaired() == true)
+    {
+        shipRepairs.setFillColor(sf::Color::Green);
+    }
+
     window.draw(ship);
     if (character.getHasAxe() == false) {
         window.draw(axeBuried);
@@ -377,6 +432,17 @@ void Game::drawObjects()
     fuelQuantity2.setPosition(character.getPosition().x - 473, character.getPosition().y - 173);
     ingotQuantity2.setPosition(character.getPosition().x - 473, character.getPosition().y - 123);
 
+    shipFishQuantity.setPosition(character.getPosition().x + 275, character.getPosition().y - 275);
+    shipFuelQuantity.setPosition(character.getPosition().x + 275, character.getPosition().y - 225);
+    shipIngotQuantity.setPosition(character.getPosition().x + 275, character.getPosition().y - 175);
+
+    shipFishQuantity2.setPosition(character.getPosition().x + 277, character.getPosition().y - 273);
+    shipFuelQuantity2.setPosition(character.getPosition().x + 277, character.getPosition().y - 223);
+    shipIngotQuantity2.setPosition(character.getPosition().x + 277, character.getPosition().y - 173);
+
+    shipRepairs.setPosition(character.getPosition().x + 275, character.getPosition().y - 325);
+    shipRepairs2.setPosition(character.getPosition().x + 277, character.getPosition().y - 323);
+
     window.draw(woodQuantity2);
     window.draw(metalQuantity2);
     window.draw(ingotQuantity2);
@@ -388,6 +454,17 @@ void Game::drawObjects()
     window.draw(ingotQuantity);
     window.draw(fishQuantity);
     window.draw(fuelQuantity);
+
+    window.draw(shipIngotQuantity2);
+    window.draw(shipFishQuantity2);
+    window.draw(shipFuelQuantity2);
+
+    window.draw(shipIngotQuantity);
+    window.draw(shipFishQuantity);
+    window.draw(shipFuelQuantity);
+
+    window.draw(shipRepairs2);
+    window.draw(shipRepairs);
 
     axeUI.setPosition(character.getPosition().x + 180, character.getPosition().y + 335);
     fishingRodUI.setPosition(character.getPosition().x + 400, character.getPosition().y + 375);

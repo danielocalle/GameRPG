@@ -40,6 +40,7 @@ private:
 	sf::View camera{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
 
 	Player character{ sf::Vector2f(400, 500), sf::Vector2f(70, 80) };
+	Spaceship brokenShip;
 
 	void createBorders();
 	void createObjects();
@@ -71,6 +72,8 @@ private:
 	GameText fishText{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(-825,1990) };
 	GameText ingotText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1420,0) };
 	GameText fuelText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(170,-1170) };
+	GameText shipRepairs{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(170,-1170) };
+	GameText shipRepairs2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(170,-1170) };
 
 
 	// UI STUFF
@@ -96,4 +99,12 @@ private:
 	// GAME START
 	GameText gameStartInstructions{ 30, sf::Color::Red, sf::Text::Bold, sf::Vector2f(150,-3950) };
 	Object teleportToSpawn{ sf::Vector2f(300, -3300), sf::Vector2f(600, 200), sf::Color::Magenta };
+	GameText shipFishQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,350) };
+	GameText shipIngotQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,250) };
+	GameText shipFuelQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,350) };
+
+	GameText shipFishQuantity2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(1450,350) };
+	GameText shipIngotQuantity2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(1450,250) };
+	GameText shipFuelQuantity2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(1450,350) };
+
 };
