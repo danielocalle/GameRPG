@@ -78,11 +78,17 @@ void Game::runGame()
             topRoomDoor.move(10000, 10000);
         }
 
-        woodQuantity.setString("Wood Quantity: " + std::to_string(character.getWoodQuantity()));
-        metalQuantity.setString("Ore Quantity: " + std::to_string(character.getMetalQuantity()));
-        ingotQuantity.setString("Metal Quantity: " + std::to_string(character.getIngotQuantity()));
-        fishQuantity.setString("Fish Quantity: " + std::to_string(character.getFishQuantity()));
-        //fuelQuantity.setString("Fuel Quantity: " + std::to_string(character.getFuelQuantity()));
+        woodQuantity.setString("Wood: " + std::to_string(character.getWoodQuantity()));
+        metalQuantity.setString("Ore: " + std::to_string(character.getMetalQuantity()));
+        ingotQuantity.setString("Metal: " + std::to_string(character.getIngotQuantity()));
+        fishQuantity.setString("Fish: " + std::to_string(character.getFishQuantity()));
+        fuelQuantity.setString("Fuel: " + std::to_string(character.getFuelQuantity()));
+
+        woodQuantity2.setString("Wood: " + std::to_string(character.getWoodQuantity()));
+        metalQuantity2.setString("Ore: " + std::to_string(character.getMetalQuantity()));
+        ingotQuantity2.setString("Metal: " + std::to_string(character.getIngotQuantity()));
+        fuelQuantity2.setString("Fuel: " + std::to_string(character.getFuelQuantity()));
+        fishQuantity2.setString("Fish: " + std::to_string(character.getFishQuantity()));
 
         interactWithObjects();
         drawObjects();
@@ -115,6 +121,12 @@ void Game::interactWithObjects()
             character.incrementFishQuantity();
         }
     }
+    if (character.getGlobalBounds().intersects(harvestFuel.getGlobalBounds()) //&& character.getHasBucket() == true
+        && character.getFuelQuantity() < 10) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+            character.incrementFuelQuantity();
+        }
+    }
     if (character.getGlobalBounds().intersects(axeBuried.getGlobalBounds()))
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
@@ -134,6 +146,15 @@ void Game::interactWithObjects()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
         {
             character.setHasBucket(true);
+        }
+    }
+    if (character.getGlobalBounds().intersects(crafter.getGlobalBounds()) && character.getWoodQuantity() >= 25
+        && character.getHasPickaxe() == false)
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+        {
+            character.setHasPickaxe(true);
+            character.setWoodQuantity(character.getWoodQuantity() - 25);
         }
     }
 }
@@ -194,9 +215,20 @@ void Game::createObjects()
 
     harvestMetal.loadTexture("Textures/miningspot2.png");
 
+    harvestFuel.loadTexture("Textures/lavapump.png");
+
+    crafter.loadTexture("Textures/crafter.png");
+
     axeBuried.loadTexture("Textures/axeburied.png");
 
     axeUI.loadTexture("Textures/axeui.png");
+
+    pickaxeUI.loadTexture("Textures/pickaxe.png");
+
+    canisterUI.loadTexture("Textures/fuelcapsule.png");
+     
+    fishingRodUI.loadTexture("Textures/fishingrod.png");
+    fishingRodUI.setRotation(130.f);
 
     fishingRod.loadTexture("Textures/fishingrod.png");
 
@@ -210,6 +242,7 @@ void Game::createObjects()
 
     leftRoomDoor.loadTexture("Textures/fence.png");
     rightRoomDoor.loadTexture("Textures/fence.png");
+    topRoomDoor.loadTexture("Textures/volcanodoor.png");
 
     // No texture, just outline for fishing area
 
@@ -229,11 +262,12 @@ void Game::createText()
     metalText.setString("Hold \"x\" to Harvest Ore");
     fishText.setString("Hold \"x\" to Harvest Fish");
     ingotText.setString("Hold \"x\" to Smelt Ore");
+    fuelText.setString("Hold \"x\" to Pump Fuel");
 }
 
 void Game::createBackground()
 {
-    worldBackgroundTexture.loadFromFile("Textures/PA9_BG_refit2.png");
+    worldBackgroundTexture.loadFromFile("Textures/backgroundHoleFilled.png");
 
     worldBackground.setTexture(worldBackgroundTexture);
     worldBackground.setPosition(-2143, -2450);
@@ -248,6 +282,18 @@ void Game::drawObjects()
     if (character.getHasAxe() == true)
     {
         axeUI.setFillColor(sf::Color::White);
+    }
+    if (character.getHasPickaxe() == true)
+    {
+        pickaxeUI.setFillColor(sf::Color::White);
+    }
+    if (character.getHasBucket() == true)
+    {
+        canisterUI.setFillColor(sf::Color::White);
+    }
+    if (character.getHasFishingRod() == true)
+    {
+        fishingRodUI.setFillColor(sf::Color::White);
     }
     window.draw(ship);
     if (character.getHasAxe() == false) {
@@ -265,11 +311,8 @@ void Game::drawObjects()
     window.draw(woodText);
     window.draw(metalText);
     window.draw(ingotText);
-    window.draw(woodQuantity);
-    window.draw(metalQuantity);
-    window.draw(ingotQuantity);
     window.draw(fishText);
-    window.draw(fishQuantity);
+    window.draw(fuelText);
 
     if (character.getHasAxe() == false) {
         window.draw(leftRoomDoor);
@@ -280,14 +323,51 @@ void Game::drawObjects()
     if (character.getHasBucket() == false) {
         window.draw(topRoomDoor);
     }
+    window.draw(harvestFuel);
     window.draw(harvestTree);
     window.draw(harvestMetal);
     window.draw(harvestIngot);
+    window.draw(harvestFish);
+
+    window.draw(crafter);
 
     compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
     window.draw(compass);
-    axeUI.setPosition(character.getPosition().x + 300, character.getPosition().y + 350);
+    
+    fishQuantity.setPosition(character.getPosition().x - 475, character.getPosition().y - 325);
+    woodQuantity.setPosition(character.getPosition().x - 475, character.getPosition().y - 275);
+    metalQuantity.setPosition(character.getPosition().x - 475, character.getPosition().y - 225);
+    fuelQuantity.setPosition(character.getPosition().x - 475, character.getPosition().y - 175);
+    ingotQuantity.setPosition(character.getPosition().x - 475, character.getPosition().y - 125);
+
+    fishQuantity2.setPosition(character.getPosition().x - 473, character.getPosition().y - 323);
+    woodQuantity2.setPosition(character.getPosition().x - 473, character.getPosition().y - 273);
+    metalQuantity2.setPosition(character.getPosition().x - 473, character.getPosition().y - 223);
+    fuelQuantity2.setPosition(character.getPosition().x - 473, character.getPosition().y - 173);
+    ingotQuantity2.setPosition(character.getPosition().x - 473, character.getPosition().y - 123);
+
+    window.draw(woodQuantity2);
+    window.draw(metalQuantity2);
+    window.draw(ingotQuantity2);
+    window.draw(fishQuantity2);
+    window.draw(fuelQuantity2);
+
+    window.draw(woodQuantity);
+    window.draw(metalQuantity);
+    window.draw(ingotQuantity);
+    window.draw(fishQuantity);
+    window.draw(fuelQuantity);
+
+    axeUI.setPosition(character.getPosition().x + 180, character.getPosition().y + 335);
+    fishingRodUI.setPosition(character.getPosition().x + 400, character.getPosition().y + 375);
+    pickaxeUI.setPosition(character.getPosition().x + 385, character.getPosition().y + 350);
+    canisterUI.setPosition(character.getPosition().x + 490, character.getPosition().y + 365);
+
     window.draw(axeUI);
+    window.draw(fishingRodUI);
+    window.draw(pickaxeUI);
+    window.draw(canisterUI);
+
     window.draw(character);
     window.display();
 }

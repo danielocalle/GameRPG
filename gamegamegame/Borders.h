@@ -58,7 +58,7 @@ public:
 			setTexture(&texture);
 		}
 		else {
-			std::cerr << "Failed to load tree texture!" << std::endl;
+			std::cerr << "Failed to load texture!" << std::endl;
 		}
 	}
 
