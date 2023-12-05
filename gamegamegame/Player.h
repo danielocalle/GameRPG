@@ -87,6 +87,10 @@ public:
 		hasAxe = newHasAxe;
 	}
 
+	void setHasFishingRod(bool newHasFishingRod) {
+		hasFishingRod = newHasFishingRod;
+	}
+
 	bool getHasAxe()
 	{
 		return hasAxe;

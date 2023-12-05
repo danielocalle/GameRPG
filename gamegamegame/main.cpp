@@ -93,9 +93,9 @@ int main()
         std::cerr << "Failed to load fence texture!" << std::endl;
     }
 
-    //walls.push_back(leftRoomDoor);
-    //walls.push_back(rightRoomDoor);
-    //walls.push_back(topRoomDoor);
+    walls.push_back(leftRoomDoor);
+    walls.push_back(rightRoomDoor);
+    walls.push_back(topRoomDoor);
 
     //walls.push_back(leftRoomRT);
     //walls.push_back(leftRoomRB);
@@ -181,10 +181,22 @@ int main()
     {
         axeBuried.setTexture(&axeBuriedTexture);
     }
-
     else
     {
         std::cerr << "Failed to load axe buried texture!" << std::endl;
+    }
+
+    Border axeUI(sf::Vector2f(1470, 1800), sf::Vector2f(75, 75), sf::Color::White);
+
+    sf::Texture axeUITexture;
+
+
+    // FISHING ROD TEXTURE
+    Border fishingRod(sf::Vector2f(-1050, 1700), sf::Vector2f(100, 100), sf::Color::White);
+
+    sf::Texture fishingRodTexture;
+    if (fishingRodTexture.loadFromFile("Textures/fishingrod.png")) {
+        fishingRod.setTexture(&fishingRodTexture);
     }
 
     // COMPASS TEXTURE
@@ -464,6 +476,14 @@ int main()
                 character.setHasAxe(true);
             }
         }
+        if (character.getGlobalBounds().intersects(fishingRod.getGlobalBounds()))
+        {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+            {
+                character.setHasFishingRod(true);
+            }
+        }
+
 
         if (character.getHasAxe() == true)
         {
