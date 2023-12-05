@@ -14,6 +14,21 @@ void Game::runGame()
     const float movementSpeed = 450.f;
     sf::Vector2f velocity;
 
+    //while (!sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+    //    sf::Event startEvent;
+    //    while (startWindow.pollEvent(startEvent)) {
+    //        if (startEvent.type == sf::Event::Closed) {
+    //            startWindow.close();
+    //        }
+    //    }
+    //    startWindow.display();
+    //    startWindow.draw(gameStartInstructions);
+    //}
+
+    //startWindow.close();
+
+    character.setPosition(500,-3600);
+
     while (window.isOpen()) {
 
         dt = dt_clock.restart().asSeconds();
@@ -75,7 +90,7 @@ void Game::runGame()
         }
         if (character.getHasBucket() == true)
         {
-            topRoomDoor.move(10000, 10000);
+            topRoomDoor.move(0, -1600);
         }
 
         woodQuantity.setString("Wood: " + std::to_string(character.getWoodQuantity()));
@@ -105,11 +120,15 @@ void Game::runGame()
 
 void Game::interactWithObjects()
 {
+    if (character.getGlobalBounds().intersects(teleportToSpawn.getGlobalBounds())) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+            character.setPosition(500, 500);
+        }
+    }
     if (character.getGlobalBounds().intersects(harvestTree.getGlobalBounds()) && character.getHasAxe() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementWoodQuantity();
         }
-
     }
     if (character.getGlobalBounds().intersects(harvestMetal.getGlobalBounds()) && character.getHasPickaxe() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
@@ -221,6 +240,12 @@ void Game::createBorders()
     Border globalTop(sf::Vector2f(-1885, -1980), sf::Vector2f(4770, 500), sf::Color{ 30,142,75 });
     Border globalBot(sf::Vector2f(-1885, 2480), sf::Vector2f(4770, 500), sf::Color{ 49,165,204 });
 
+    // GAME START AREA
+    Border topStart{ sf::Vector2f(-200, -4000), sf::Vector2f(1600, 100), sf::Color{ 130,142,75 } };
+    Border rightStart{ sf::Vector2f(1300, -3900), sf::Vector2f(100, 900), sf::Color{ 30,242,75 } };
+    Border leftStart{ sf::Vector2f(-200, -3900), sf::Vector2f(100, 900), sf::Color{ 30,142,175 } };
+    Border bottomStart{ sf::Vector2f(-100, -3100), sf::Vector2f(1400, 100), sf::Color{ 230,142,75 } };
+
     borders.push_back(mRoomTL);
     borders.push_back(mRoomTR);
     borders.push_back(mRoomLT);
@@ -240,39 +265,31 @@ void Game::createBorders()
     borders.push_back(globalRight);
     borders.push_back(globalTop);
     borders.push_back(globalBot);
+    borders.push_back(topStart);
+    borders.push_back(rightStart);
+    borders.push_back(leftStart);
+    borders.push_back(bottomStart);
 }
 
 void Game::createObjects()
 {
     harvestTree.loadTexture("Textures/treeForHarvestGood.png");
-
     harvestIngot.loadTexture("Textures/furnacefinal.png");
-
     harvestMetal.loadTexture("Textures/miningspot2.png");
-
     harvestFuel.loadTexture("Textures/lavapump.png");
-
     crafter.loadTexture("Textures/crafter.png");
-
     axeBuried.loadTexture("Textures/axeburied.png");
 
     axeUI.loadTexture("Textures/axeui.png");
-
     pickaxeUI.loadTexture("Textures/pickaxe.png");
-
     canisterUI.loadTexture("Textures/fuelcapsule.png");
-     
     fishingRodUI.loadTexture("Textures/fishingrod.png");
     fishingRodUI.setRotation(130.f);
 
     fishingRod.loadTexture("Textures/fishingrod.png");
-
     fuelCanister.loadTexture("Textures/fuelempty.png");
-
     compass.loadTexture("Textures/compass.png");
-
     ship.loadTexture("Textures/shipsand.png");
-
     fishHut.loadTexture("Textures/fishinghut.png");
 
     leftRoomDoor.loadTexture("Textures/fence.png");
@@ -298,6 +315,13 @@ void Game::createText()
     fishText.setString("Hold \"x\" to Harvest Fish");
     ingotText.setString("Hold \"x\" to Smelt Ore");
     fuelText.setString("Hold \"x\" to Pump Fuel");
+    std::string temp = "          ~~~ Instructions ~~~\n\nYou have crash landed on an island,\n";
+    temp += "you must complete certain objectives to\nunlock new rooms and progress\n";
+    temp += "through the game.\nYour first objective is to find the axe.\n";
+    temp += "It was last seen onboard the ship.\nThe ship should be just South-East of spawn.\n\n";
+    temp += "Press \"X\" to pick up objects.\nHold \"X\" to harvest resources.\n\n";
+    temp += "Stand on the magenta rectangle and\nPress \"X\" to teleport to spawn and\nbegin exploring.";
+    gameStartInstructions.setString(temp);
     shipRepairs.setString("Ship Repairs");
     shipRepairs2.setString("Ship Repairs");
 }
@@ -363,6 +387,9 @@ void Game::drawObjects()
     window.draw(fishHut);
     window.draw(harvestFish);
 
+    window.draw(gameStartInstructions);
+    window.draw(teleportToSpawn);
+
     window.draw(woodText);
     window.draw(metalText);
     window.draw(ingotText);
@@ -385,6 +412,10 @@ void Game::drawObjects()
     window.draw(harvestFish);
 
     window.draw(crafter);
+
+    //for (auto& wall : borders) {
+    //    window.draw(wall);
+    //}
 
     compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
     window.draw(compass);
