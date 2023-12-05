@@ -205,7 +205,7 @@ int main()
         fishHut.setTexture(&fishHutTexture);
     }
     else {
-        std::cerr << "Failed to load ship texture!" << std::endl;
+        std::cerr << "Failed to load fish hut texture!" << std::endl;
     }
 
     Border harvestFish(sf::Vector2f(-850, 2110), sf::Vector2f(600, 365), sf::Color::Transparent);
@@ -257,11 +257,11 @@ int main()
     woodText.setStyle(sf::Text::Bold);
     woodText.setPosition({-950,700});
 
-    metalText.setString("Hold \"x\" to Harvest Metal");
+    metalText.setString("Hold \"x\" to Harvest Ore");
     metalText.setCharacterSize(30);
     metalText.setFillColor(sf::Color::White);
     metalText.setStyle(sf::Text::Bold);
-    metalText.setPosition({ 1450,700 });
+    metalText.setPosition({ 1450,600 });
 
     fishText.setString("Hold \"x\" to Harvest Fish");
     fishText.setCharacterSize(30);
