@@ -95,7 +95,7 @@ int main()
 
     walls.push_back(leftRoomDoor);
     walls.push_back(rightRoomDoor);
-    walls.push_back(topRoomDoor);
+    //walls.push_back(topRoomDoor);
 
     //walls.push_back(leftRoomRT);
     //walls.push_back(leftRoomRB);
@@ -173,6 +173,16 @@ int main()
         std::cerr << "Failed to load metalzone texture!" << std::endl;
     }
 
+    // FUEL TEXTURE
+    Border harvestFuel(sf::Vector2f(160, -1400), sf::Vector2f(200, 200), sf::Color::White);
+    sf::Texture fuelTexture;
+    if (fuelTexture.loadFromFile("Textures/lavapump.png")) {
+        harvestFuel.setTexture(&fuelTexture);
+    }
+    else {
+        std::cerr << "Failed to load lavapump texture!" << std::endl;
+    }
+
     // AXE BURIED TEXTURE
     Border axeBuried(sf::Vector2f(1470, 1800), sf::Vector2f(75, 75), sf::Color::White);
 
@@ -221,6 +231,7 @@ int main()
         std::cerr << "Failed to load ship texture!" << std::endl;
     }
 
+    // FISH HUT TEXTURE
     Border fishHut(sf::Vector2f(-700, 1450), sf::Vector2f(300, 400), sf::Color::White);
 
     sf::Texture fishHutTexture;
@@ -231,14 +242,15 @@ int main()
         std::cerr << "Failed to load fish hut texture!" << std::endl;
     }
 
-    Border crafter(sf::Vector2f(-1050, 700), sf::Vector2f(200, 200), sf::Color::White);
+    // CRAFTER TEXTURE
+    Border crafter(sf::Vector2f(-1050, 700), sf::Vector2f(80, 100), sf::Color::White);
 
     sf::Texture crafterTexture;
     if (crafterTexture.loadFromFile("Textures/crafter.png")) {
         crafter.setTexture(&crafterTexture);
     }
     else {
-        std::cerr << "Failed to load fish hut texture!" << std::endl;
+        std::cerr << "Failed to load crafter texture!" << std::endl;
     }
 
     Border harvestFish(sf::Vector2f(-850, 2110), sf::Vector2f(600, 365), sf::Color::Transparent);
@@ -269,6 +281,8 @@ int main()
         ingotQuantity.setFont(font);
         fishText.setFont(font);
         fishQuantity.setFont(font);
+        fuelText.setFont(font);
+        fuelQuantity.setFont(font);
     }
     else
     {
@@ -295,6 +309,11 @@ int main()
     fishQuantity.setStyle(sf::Text::Bold);
     fishQuantity.setPosition({ -825,2040 });
 
+    fuelQuantity.setCharacterSize(30);
+    fuelQuantity.setFillColor(sf::Color::Black);
+    fuelQuantity.setStyle(sf::Text::Bold);
+    fuelQuantity.setPosition({ 160,-1100 });
+
     woodText.setString("Hold \"x\" to Harvest Wood");
     woodText.setCharacterSize(30);
     woodText.setFillColor(sf::Color::White);
@@ -318,6 +337,12 @@ int main()
     fishText.setFillColor(sf::Color::Black);
     fishText.setStyle(sf::Text::Bold);
     fishText.setPosition({ -825,1990 });
+
+    fishText.setString("Press \"x\" to Pump Fuel");
+    fishText.setCharacterSize(30);
+    fishText.setFillColor(sf::Color::White);
+    fishText.setStyle(sf::Text::Bold);
+    fishText.setPosition({ 170,-1170 });
 
     //character.setOutlineColor(sf::Color::Magenta);
     //character.setOutlineThickness(2.f);
@@ -479,6 +504,11 @@ int main()
                 character.incrementFishQuantity();
             }
         }
+        if (character.getGlobalBounds().intersects(harvestFuel.getGlobalBounds()) && character.getHasBucket() == true) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+                character.incrementFuelQuantity();
+            }
+        }
         if (character.getGlobalBounds().intersects(axeBuried.getGlobalBounds()))
         {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
@@ -532,18 +562,21 @@ int main()
 
         window.draw(fishHut);
         window.draw(crafter);
-        window.draw(harvestFish);
         window.draw(woodText);
         window.draw(metalText);
         window.draw(ingotText);
         window.draw(fishText);
+        window.draw(fuelText);
         window.draw(woodQuantity);
         window.draw(metalQuantity);
         window.draw(ingotQuantity);
         window.draw(fishQuantity);
+        window.draw(fuelQuantity);
         window.draw(harvestTree);
         window.draw(harvestMetal);
         window.draw(harvestIngot);
+        window.draw(harvestFish);
+        window.draw(harvestFuel);
         compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
         window.draw(compass);
         window.draw(character);
