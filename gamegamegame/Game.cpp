@@ -153,7 +153,7 @@ void Game::interactWithObjects()
             character.incrementFishQuantity();
         }
     }
-    if (character.getGlobalBounds().intersects(harvestFuel.getGlobalBounds()) //&& character.getHasBucket() == true
+    if (character.getGlobalBounds().intersects(harvestFuel.getGlobalBounds()) && character.getHasBucket() == true
         && character.getFuelQuantity() < 10) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementFuelQuantity();
@@ -213,6 +213,7 @@ void Game::interactWithObjects()
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && brokenShip.isRepaired() == true)
         {
+            character.setPosition(sf::Vector2f(600, 5350));
             /// teleport to ending room
         }
     }
