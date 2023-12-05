@@ -55,6 +55,22 @@ public:
 		fuelQuantity = newQuantity;
 	}
 
+	void incrementWoodQuantity() {
+		woodQuantity += 0.11;
+	}
+	void incrementMetalQuantity() {
+		metalQuantity += 0.108;
+	}
+	virtual void incrementFishQuantity() {
+		fishQuantity += 0.106;
+	}
+	void incrementIngotQuantity() {
+		ingotQuantity++;
+	}
+	virtual void incrementFuelQuantity() {
+		fuelQuantity += 0.02;
+	}
+
 protected:
 	double woodQuantity;
 	double metalQuantity;
@@ -97,7 +113,7 @@ public:
 		sf::RectangleShape::setTexture(texture);
 	}
 
-	void incrementWoodQuantity() {
+	/*void incrementWoodQuantity() {
 		woodQuantity += 0.11;
 	}
 	void incrementMetalQuantity() {
@@ -111,7 +127,7 @@ public:
 	}
 	void incrementFuelQuantity() {
 		fuelQuantity += 0.02;
-	}
+	}*/
 
 	bool getHasAxe() {
 		return hasAxe;
@@ -183,5 +199,12 @@ public:
 		else {
 			return false;
 		}
+	}
+
+	void incrementFishQuantity() {
+		fishQuantity++;
+	}
+	void incrementFuelQuantity() {
+		fuelQuantity++;
 	}
 };

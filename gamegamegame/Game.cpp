@@ -198,17 +198,17 @@ void Game::interactWithObjects()
             if (brokenShip.fuelThreshold() == false && character.getFuelQuantity() >= 1)
             {
                 character.setFuelQuantity(character.getFuelQuantity() - 1);
-                brokenShip.setFuelQuantity(brokenShip.getFuelQuantity() + 1);
+                brokenShip.incrementFuelQuantity();
             }
             if (brokenShip.ingotThreshold() == false && character.getIngotQuantity() >= 1)
             {
                 character.setIngotQuantity(character.getIngotQuantity() - 1);
-                brokenShip.setIngotQuantity(brokenShip.getIngotQuantity() + 1);
+                brokenShip.incrementIngotQuantity();
             }
             if (brokenShip.fishThreshold() == false && character.getFishQuantity() >= 1)
             {
                 character.setFishQuantity(character.getFishQuantity() - 1);
-                brokenShip.setFishQuantity(brokenShip.getFishQuantity() + 1);
+                brokenShip.incrementFishQuantity();
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && brokenShip.isRepaired() == true)
