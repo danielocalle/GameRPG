@@ -148,8 +148,40 @@ private:
 	bool hasBucket;
 };
 
-class Spaceship : public Inventory {
+class Spaceship : public Inventory
+{
 public:
+	bool fishThreshold() {
+		if (fishQuantity >= 100) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	bool ingotThreshold() {
+		if (ingotQuantity >= 50) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	bool fuelThreshold() {
+		if (fuelQuantity >= 30)	{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
-
+	bool isRepaired() {
+		if (fishThreshold() == true, ingotThreshold() == true, fuelThreshold() == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 };
