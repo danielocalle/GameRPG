@@ -10,8 +10,10 @@ public:
 		hasAxe = false;
 		hasPickaxe = false;
 		hasBucket = false;
+		hasFishingRod = false;
 		woodQuantity = 0.0;
-		metalQuantity = 0;
+		metalQuantity = 0.0;
+		fishQuantity = 0.0;
 	}
 	Player(const sf::Vector2f& pos, const sf::Vector2f& size) :
 		sf::RectangleShape(size)
@@ -20,8 +22,10 @@ public:
 		hasAxe = false;
 		hasPickaxe = false;
 		hasBucket = false;
+		hasFishingRod = false;
 		woodQuantity = 0.0;
-		metalQuantity = 0;
+		metalQuantity = 0.0;
+		fishQuantity = 0.0;
 	}
 
 	void setTexture(const sf::Texture* texture)
@@ -67,6 +71,11 @@ public:
 		return hasPickaxe;
 	}
 
+	bool getHasFishingRod()
+	{
+		return hasFishingRod;
+	}
+
 	bool getHasBucket()
 	{
 		return hasBucket;
@@ -75,7 +84,9 @@ public:
 private:
 	bool hasAxe;
 	bool hasPickaxe;
+	bool hasFishingRod;
 	bool hasBucket;
+
 
 	double woodQuantity;
 	double metalQuantity;

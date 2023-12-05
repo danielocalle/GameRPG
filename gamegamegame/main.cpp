@@ -213,7 +213,6 @@ int main()
     harvestFish.setOutlineColor({ 73,164,189 });
     harvestFish.setOutlineThickness(10.f);
 
-
     sf::Font font;
     sf::Text woodText;
     sf::Text woodQuantity;
@@ -412,7 +411,7 @@ int main()
                 character.incrementMetalQuantity();
             }
         }
-        if (character.getGlobalBounds().intersects(harvestFish.getGlobalBounds())) {
+        if (character.getGlobalBounds().intersects(harvestFish.getGlobalBounds()) && character.getHasFishingRod() == true) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
                 character.incrementFishQuantity();
             }
@@ -455,6 +454,9 @@ int main()
 
         if (character.getHasAxe() == false) {
             window.draw(axeBuried);
+        }
+        if (character.getHasFishingRod() == false) {
+            window.draw(fishingRod);
         }
 
         window.draw(fishHut);
