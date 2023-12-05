@@ -93,9 +93,9 @@ int main()
         std::cerr << "Failed to load fence texture!" << std::endl;
     }
 
-    walls.push_back(leftRoomDoor);
+    /*walls.push_back(leftRoomDoor);
     walls.push_back(rightRoomDoor);
-    walls.push_back(topRoomDoor);
+    walls.push_back(topRoomDoor);*/
 
     //walls.push_back(leftRoomRT);
     //walls.push_back(leftRoomRB);
@@ -152,9 +152,15 @@ int main()
     }
     
     // METAL(MINES AREA SHIT) TEXTURE
-    Border harvestMetal(sf::Vector2f(1420, 75), sf::Vector2f(600,600), sf::Color::White);
+    Border harvestMetal(sf::Vector2f(1355, 675), sf::Vector2f(780,700), sf::Color::White);
 
     sf::Texture metalTexture; // more code below needed
+    if (metalTexture.loadFromFile("Textures/miningspot2.png")) {
+        harvestMetal.setTexture(&metalTexture);
+    }
+    else {
+        std::cerr << "Failed to load metalzone texture!" << std::endl;
+    }
 
     // DOOR TEXTURE
 
@@ -188,7 +194,7 @@ int main()
         fishHut.setTexture(&fishHutTexture);
     }
     else {
-        std::cerr << "Failed to load ship texture!" << std::endl;
+        std::cerr << "Failed to load fish hut texture!" << std::endl;
     }
 
     Border harvestFish(sf::Vector2f(-850, 2110), sf::Vector2f(600, 365), sf::Color::Transparent);
@@ -231,11 +237,11 @@ int main()
     woodText.setStyle(sf::Text::Bold);
     woodText.setPosition({-950,700});
 
-    metalText.setString("Hold \"x\" to Harvest Metal");
+    metalText.setString("Hold \"x\" to Harvest Ore");
     metalText.setCharacterSize(30);
     metalText.setFillColor(sf::Color::White);
     metalText.setStyle(sf::Text::Bold);
-    metalText.setPosition({ 1450,700 });
+    metalText.setPosition({ 1450,600 });
 
     //character.setOutlineColor(sf::Color::Magenta);
     //character.setOutlineThickness(2.f);
