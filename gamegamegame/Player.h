@@ -152,7 +152,7 @@ class Spaceship : public Inventory
 {
 public:
 	bool fishThreshold() {
-		if (fishQuantity >= 100) {
+		if (fishQuantity >= 10) { // 100
 			return true;
 		}
 		else {
@@ -160,7 +160,7 @@ public:
 		}
 	}
 	bool ingotThreshold() {
-		if (ingotQuantity >= 50) {
+		if (ingotQuantity >= 10) { // 50
 			return true;
 		}
 		else {
@@ -168,7 +168,7 @@ public:
 		}
 	}
 	bool fuelThreshold() {
-		if (fuelQuantity >= 30)	{
+		if (fuelQuantity >= 10)	{ // 30
 			return true;
 		}
 		else {
