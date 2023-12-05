@@ -39,6 +39,11 @@ void Game::runGame()
                 window.close();
         }
 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
+        {
+            character.setPosition(sf::Vector2f(600, 5350));
+        }
+
         velocity.y = 0.f;
         velocity.x = 0.f;
 
@@ -246,6 +251,12 @@ void Game::createBorders()
     Border leftStart{ sf::Vector2f(-200, -3900), sf::Vector2f(100, 900), sf::Color{ 30,142,175 } };
     Border bottomStart{ sf::Vector2f(-100, -3100), sf::Vector2f(1400, 100), sf::Color{ 230,142,75 } };
 
+    // GAME END AREA
+    Border endRoomTop(sf::Vector2f(-200, 4900), sf::Vector2f(1600, 100), sf::Color::White);
+    Border endRoomRight(sf::Vector2f(1300, 4900), sf::Vector2f(100, 900), sf::Color::White);
+    Border endRoomLeft(sf::Vector2f(-200, 4900), sf::Vector2f(100, 900), sf::Color::White);
+    Border endRoomBottom(sf::Vector2f(-100, 5700), sf::Vector2f(1400, 100), sf::Color::White);
+
     borders.push_back(mRoomTL);
     borders.push_back(mRoomTR);
     borders.push_back(mRoomLT);
@@ -269,6 +280,10 @@ void Game::createBorders()
     borders.push_back(rightStart);
     borders.push_back(leftStart);
     borders.push_back(bottomStart);
+    borders.push_back(endRoomTop);
+    borders.push_back(endRoomRight);
+    borders.push_back(endRoomLeft);
+    borders.push_back(endRoomBottom);
 }
 
 void Game::createObjects()
@@ -333,12 +348,21 @@ void Game::createBackground()
     worldBackground.setTexture(worldBackgroundTexture);
     worldBackground.setPosition(-2143, -2450);
     worldBackground.setScale(3, 3);
+
+    // ENDROOM TEXTURE
+
+    endRoomBackgroundTexture.loadFromFile("Textures/endroom.png");
+
+    endRoomBackground.setTexture(endRoomBackgroundTexture);
+    endRoomBackground.setPosition(-100, 5000);
+    endRoomBackground.setScale(2.75, 2);
 }
 
 void Game::drawObjects()
 {
     window.clear();
     window.draw(worldBackground);
+    window.draw(endRoomBackground);
 
     if (character.getHasAxe() == true)
     {
@@ -478,4 +502,12 @@ void Game::drawObjects()
 
     window.draw(character);
     window.display();
+}
+
+void Game::createEndRoom()
+{
+    for (auto& wall : borders)
+    {
+        window.draw(endRoomBackground);
+    }
 }

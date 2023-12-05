@@ -29,11 +29,20 @@ public:
 		return worldBackground;
 	}
 
+	sf::Sprite getEndRoomBackground() {
+		return endRoomBackground;
+	}
+
+	void createEndRoom();
+
 private:
 	std::vector<Border> borders;
 
 	sf::Texture worldBackgroundTexture;
 	sf::Sprite worldBackground;
+
+	sf::Texture endRoomBackgroundTexture;
+	sf::Sprite endRoomBackground;
 
 	sf::RenderWindow startWindow{ sf::VideoMode(1100, 800), "RPG GAME" };
 	sf::RenderWindow window{ sf::VideoMode(1100, 800), "RPG GAME" };
