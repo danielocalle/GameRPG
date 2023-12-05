@@ -497,7 +497,7 @@ int main()
             window.draw(axeBuried);
         }
         if (character.getHasFishingRod() == false) {
-            window.draw(fishingRod);
+            //window.draw(fishingRod);
         }
 
         window.draw(fishHut);
@@ -505,9 +505,11 @@ int main()
         window.draw(woodText);
         window.draw(metalText);
         window.draw(ingotText);
+        window.draw(fishText);
         window.draw(woodQuantity);
         window.draw(metalQuantity);
         window.draw(ingotQuantity);
+        window.draw(fishQuantity);
         window.draw(harvestTree);
         window.draw(harvestMetal);
         window.draw(harvestIngot);
