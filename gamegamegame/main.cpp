@@ -93,9 +93,9 @@ int main()
         std::cerr << "Failed to load fence texture!" << std::endl;
     }
 
-    /*walls.push_back(leftRoomDoor);
-    walls.push_back(rightRoomDoor);
-    walls.push_back(topRoomDoor);*/
+    //walls.push_back(leftRoomDoor);
+    //walls.push_back(rightRoomDoor);
+    //walls.push_back(topRoomDoor);
 
     //walls.push_back(leftRoomRT);
     //walls.push_back(leftRoomRB);
@@ -173,8 +173,19 @@ int main()
         std::cerr << "Failed to load metalzone texture!" << std::endl;
     }
 
-    // DOOR TEXTURE
+    // AXE BURIED TEXTURE
+    Border axeBuried(sf::Vector2f(1470, 1800), sf::Vector2f(75, 75), sf::Color::White);
 
+    sf::Texture axeBuriedTexture;
+    if (axeBuriedTexture.loadFromFile("Textures/axeburied.png"))
+    {
+        axeBuried.setTexture(&axeBuriedTexture);
+    }
+
+    else
+    {
+        std::cerr << "Failed to load axe buried texture!" << std::endl;
+    }
 
     // COMPASS TEXTURE
     Border compass(sf::Vector2f(0, 0), sf::Vector2f(150, 150), sf::Color::White);
@@ -212,7 +223,6 @@ int main()
 
     harvestFish.setOutlineColor({ 73,164,189 });
     harvestFish.setOutlineThickness(10.f);
-
 
     sf::Font font;
     sf::Text woodText;
@@ -257,6 +267,11 @@ int main()
     ingotQuantity.setFillColor(sf::Color::White);
     ingotQuantity.setStyle(sf::Text::Bold);
     ingotQuantity.setPosition({ 1450,250 });
+
+    fishQuantity.setCharacterSize(30);
+    fishQuantity.setFillColor(sf::Color::Black);
+    fishQuantity.setStyle(sf::Text::Bold);
+    fishQuantity.setPosition({ -825,2040 });
 
     woodText.setString("Hold \"x\" to Harvest Wood");
     woodText.setCharacterSize(30);
@@ -396,6 +411,8 @@ int main()
 
         fuelQuantity.setString("Fuel Quantity: " + std::to_string(character.getFuelQuantity()));
 
+        fishQuantity.setString("Fish Quantity: " + std::to_string(character.getFishQuantity()));
+
         // Update any game logic here
         character.move(velocity);
 
@@ -416,12 +433,13 @@ int main()
         //    window.draw(i);
         //}
 
-        if (character.getGlobalBounds().intersects(harvestTree.getGlobalBounds())) {
+        if (character.getGlobalBounds().intersects(harvestTree.getGlobalBounds()) && character.getHasAxe() == true) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
                 character.incrementWoodQuantity();
             }
+
         }
-        if (character.getGlobalBounds().intersects(harvestMetal.getGlobalBounds())) {
+        if (character.getGlobalBounds().intersects(harvestMetal.getGlobalBounds()) && character.getHasPickaxe() == true) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
                 character.incrementMetalQuantity();
             }
@@ -439,7 +457,13 @@ int main()
                 character.incrementFishQuantity();
             }
         }
-
+        if (character.getGlobalBounds().intersects(axeBuried.getGlobalBounds()))
+        {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+            {
+                character.setHasAxe(true);
+            }
+        }
 
         if (character.getHasAxe() == true)
         {
@@ -468,6 +492,14 @@ int main()
         window.draw(topRoomDoor);
 
         window.draw(ship);
+
+        if (character.getHasAxe() == false) {
+            window.draw(axeBuried);
+        }
+        if (character.getHasFishingRod() == false) {
+            window.draw(fishingRod);
+        }
+
         window.draw(fishHut);
         window.draw(harvestFish);
         window.draw(woodText);
