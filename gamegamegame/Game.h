@@ -63,7 +63,7 @@ private:
 
 	Door leftRoomDoor{ sf::Vector2f(-20, 435), sf::Vector2f(80, 125), sf::Color::White };
 	Door rightRoomDoor{ sf::Vector2f(940, 445), sf::Vector2f(75, 105), sf::Color::White };
-	Door topRoomDoor{ sf::Vector2f(445, -35), sf::Vector2f(100, 90), sf::Color::White };
+	Door topRoomDoor{ sf::Vector2f(434, -40), sf::Vector2f(125, 110), sf::Color::White };
 
 	GameText woodText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(-950,375) };
 	GameText metalText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,600) };

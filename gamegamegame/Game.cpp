@@ -162,7 +162,7 @@ void Game::interactWithObjects()
 void Game::createBorders()
 {
     // MIDDLE ROOM BORDERS
-    Border mRoomTL(sf::Vector2f(60, -20), sf::Vector2f(375, 75), sf::Color{ 240,120,165 }), mRoomTR(sf::Vector2f(560, -20), sf::Vector2f(380, 75), sf::Color{ 240,120,165 }),
+    Border mRoomTL(sf::Vector2f(60, -20), sf::Vector2f(375, 90), sf::Color{ 240,120,165 }), mRoomTR(sf::Vector2f(560, -20), sf::Vector2f(380, 90), sf::Color{ 240,120,165 }),
         mRoomLT(sf::Vector2f(-20, -410), sf::Vector2f(80, 830), sf::Color{ 140,120,165 }), mRoomLB(sf::Vector2f(-20, 575), sf::Vector2f(80, 925), sf::Color{ 240,120,165 }),
         mRoomRT(sf::Vector2f(940, -405), sf::Vector2f(75, 835), sf::Color{ 140,120,165 }), mRoomRB(sf::Vector2f(940, 565), sf::Vector2f(75, 930), sf::Color{ 240,120,165 }),
         mRoomBL(sf::Vector2f(60, 935), sf::Vector2f(375, 85), sf::Color{ 140,120,165 }), mRoomBR(sf::Vector2f(565, 935), sf::Vector2f(375, 85), sf::Color{ 140,120,165 });
