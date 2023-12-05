@@ -11,6 +11,9 @@ int main()
     //wrapper.runGame();
     //wrapper.initWorld();
     //wrapper.render();
+
+#if 1
+
     sf::Texture worldBackgroundTexture;
     worldBackgroundTexture.loadFromFile("Textures/PA9_BG_refit2.png");
     //worldBackgroundTexture.loadFromFile("Textures/tilecounter.png");
@@ -20,11 +23,15 @@ int main()
     worldBackground.setPosition(-2143, -2450);
     worldBackground.setScale(3, 3);
 
-    sf::RenderWindow window(sf::VideoMode(1100, 800), "GameTest");
+#endif
+
+    sf::RenderWindow window(sf::VideoMode(1100, 800), "RPG GAME");
 
     sf::View camera{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
     //sf::View HUD{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
     
+#if 1
+
     std::vector<sf::RectangleShape> walls;
 
     // MIDDLE ROOM BORDERS
@@ -71,6 +78,25 @@ int main()
     walls.push_back(leftRoomT);
     walls.push_back(leftRoomB);
 
+    Border leftRoomDoor(sf::Vector2f(-20, 435), sf::Vector2f(80, 125), sf::Color::White);
+    Border rightRoomDoor(sf::Vector2f(940, 445), sf::Vector2f(75, 105), sf::Color::White);
+    Border topRoomDoor(sf::Vector2f(445, -35), sf::Vector2f(100, 90), sf::Color::White);
+
+    sf::Texture fenceTexture;
+    if (fenceTexture.loadFromFile("Textures/fence.png"))
+    {
+        leftRoomDoor.setTexture(&fenceTexture);
+        rightRoomDoor.setTexture(&fenceTexture);
+    }
+    else
+    {
+        std::cerr << "Failed to load fence texture!" << std::endl;
+    }
+
+    walls.push_back(leftRoomDoor);
+    walls.push_back(rightRoomDoor);
+    walls.push_back(topRoomDoor);
+
     //walls.push_back(leftRoomRT);
     //walls.push_back(leftRoomRB);
     //walls.push_back(rightRoomLT);
@@ -87,6 +113,9 @@ int main()
     walls.push_back(globalRight);
     walls.push_back(globalTop);
     walls.push_back(globalBot);
+
+#endif
+
 
     Player character(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), 
         sf::Vector2f(70,80));
@@ -127,6 +156,7 @@ int main()
 
     sf::Texture metalTexture; // more code below needed
 
+    // DOOR TEXTURE
 
 
     // COMPASS TEXTURE
@@ -150,6 +180,22 @@ int main()
     else {
         std::cerr << "Failed to load ship texture!" << std::endl;
     }
+
+    Border fishHut(sf::Vector2f(-700, 1450), sf::Vector2f(300, 400), sf::Color::White);
+
+    sf::Texture fishHutTexture;
+    if (fishHutTexture.loadFromFile("Textures/fishinghut.png")) {
+        fishHut.setTexture(&fishHutTexture);
+    }
+    else {
+        std::cerr << "Failed to load ship texture!" << std::endl;
+    }
+
+    Border harvestFish(sf::Vector2f(-850, 2110), sf::Vector2f(600, 365), sf::Color::Transparent);
+
+    harvestFish.setOutlineColor({ 73,164,189 });
+    harvestFish.setOutlineThickness(10.f);
+
 
     sf::Font font;
     sf::Text woodText;
@@ -191,8 +237,8 @@ int main()
     metalText.setStyle(sf::Text::Bold);
     metalText.setPosition({ 1450,700 });
 
-    character.setOutlineColor(sf::Color::Magenta);
-    character.setOutlineThickness(2.f);
+    //character.setOutlineColor(sf::Color::Magenta);
+    //character.setOutlineThickness(2.f);
 
     window.setFramerateLimit(120);
 
@@ -251,7 +297,7 @@ int main()
         {
             sf::FloatRect playerBounds = character.getGlobalBounds();
             sf::FloatRect wallBounds = wall.getGlobalBounds();
-           
+
             nextPos = playerBounds;
             nextPos.left += velocity.x;
             nextPos.top += velocity.y;
@@ -304,8 +350,6 @@ int main()
         // Update any game logic here
         character.move(velocity);
 
-        //window.setView(HUD);
-
 
         // Update the camera/view
         camera.setCenter(character.getPosition().x + 25, character.getPosition().y + 50);
@@ -317,10 +361,7 @@ int main()
 
         window.draw(worldBackground);
 
-        compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
-        window.draw(compass);
-
-        // draws borders to screen (not needed in final version, map shows "borders")
+        //draws borders to screen (not needed in final version, map shows "borders")
         //for (auto& i : walls)
         //{
         //    window.draw(i);
@@ -336,17 +377,50 @@ int main()
                 character.incrementMetalQuantity();
             }
         }
+        if (character.getGlobalBounds().intersects(harvestFish.getGlobalBounds())) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+                character.incrementFishQuantity();
+            }
+        }
+
+
+        if (character.getHasAxe() == true)
+        {
+            walls[10].move(10000, 10000);
+            leftRoomDoor.move(10000, 10000);
+        }
+
+        if (character.getHasPickaxe() == true)
+        {
+            walls[11].move(10000, 10000);
+            rightRoomDoor.move(10000, 10000);
+        }
+
+        if (character.getHasBucket() == true)
+        {
+            walls[12].move(10000, 10000);
+            topRoomDoor.move(10000, 10000);
+        }
 
         //window.draw(lavaUpper);
         //window.draw(lavaMiddle);
         //window.draw(lavaBottom);
+
+        window.draw(leftRoomDoor);
+        window.draw(rightRoomDoor);
+        window.draw(topRoomDoor);
+
         window.draw(ship);
+        window.draw(fishHut);
+        window.draw(harvestFish);
         window.draw(woodText);
         window.draw(metalText);
         window.draw(woodQuantity);
         window.draw(metalQuantity);
         window.draw(harvestTree);
         window.draw(harvestMetal);
+        compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
+        window.draw(compass);
         window.draw(character);
         window.display();
     }

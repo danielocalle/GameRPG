@@ -9,7 +9,7 @@ public:
 	{
 		hasAxe = false;
 		hasPickaxe = false;
-		hasBoatPart = false;
+		hasBucket = false;
 		woodQuantity = 0.0;
 		metalQuantity = 0;
 	}
@@ -19,7 +19,7 @@ public:
 		this->setPosition(pos);
 		hasAxe = false;
 		hasPickaxe = false;
-		hasBoatPart = false;
+		hasBucket = false;
 		woodQuantity = 0.0;
 		metalQuantity = 0;
 	}
@@ -45,11 +45,35 @@ public:
 		metalQuantity = metalQuantity + 0.008;
 	}
 
+	int getFishQuantity() {
+		return fishQuantity;
+	}
+
+	void incrementFishQuantity() {
+		fishQuantity = fishQuantity + 0.006;
+	}
+
+	bool getHasAxe()
+	{
+		return hasAxe;
+	}
+
+	bool getHasPickaxe()
+	{
+		return hasPickaxe;
+	}
+
+	bool getHasBucket()
+	{
+		return hasBucket;
+	}
+
 private:
 	bool hasAxe;
 	bool hasPickaxe;
-	bool hasBoatPart;
+	bool hasBucket;
 
 	double woodQuantity;
 	double metalQuantity;
+	double fishQuantity;
 };
