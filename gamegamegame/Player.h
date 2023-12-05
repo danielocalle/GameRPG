@@ -13,6 +13,7 @@ public:
 		hasFishingRod = false;
 		woodQuantity = 0.0;
 		metalQuantity = 0.0;
+		ingotQuantity = 0;
 		fishQuantity = 0.0;
 	}
 	Player(const sf::Vector2f& pos, const sf::Vector2f& size) :
@@ -25,6 +26,7 @@ public:
 		hasFishingRod = false;
 		woodQuantity = 0.0;
 		metalQuantity = 0.0;
+		ingotQuantity = 0;
 		fishQuantity = 0.0;
 	}
 
@@ -49,12 +51,36 @@ public:
 		metalQuantity = metalQuantity + 0.008;
 	}
 
+	void setMetalQuantity(int newQuantity) {
+		metalQuantity = newQuantity;
+	}
+
 	int getFishQuantity() {
 		return fishQuantity;
 	}
 
 	void incrementFishQuantity() {
 		fishQuantity = fishQuantity + 0.006;
+	}
+
+	int getIngotQuantity() {
+		return ingotQuantity;
+	}
+
+	void incrementIngotQuantity() {
+		ingotQuantity++;
+	}
+
+	int getFuelQuantity() {
+		return fuelQuantity;
+	}
+
+	void incrementFuelQuantity() {
+		fuelQuantity += 0.05;
+	}
+
+	void setFuelQuantity(double newQuantity) {
+		fuelQuantity = newQuantity;
 	}
 
 	void setHasAxe(bool newHasAxe) {
@@ -95,4 +121,6 @@ private:
 	double woodQuantity;
 	double metalQuantity;
 	double fishQuantity;
+	int ingotQuantity;
+	double fuelQuantity;
 };

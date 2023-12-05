@@ -150,10 +150,21 @@ int main()
     else {
         std::cerr << "Failed to load tree texture!" << std::endl;
     }
+
+    // FURNACE TEXTURE
+    Border harvestIngot(sf::Vector2f(1355, -400), sf::Vector2f(600, 400), sf::Color::White);
+
+    sf::Texture ingotTexture; // more code below needed
+    if (ingotTexture.loadFromFile("Textures/furnacefinal.png")) {
+        harvestIngot.setTexture(&ingotTexture);
+    }
+    else {
+        std::cerr << "Failed to load furnace texture!" << std::endl;
+    }
+
     
     // METAL(MINES AREA SHIT) TEXTURE
-    Border harvestMetal(sf::Vector2f(1355, 675), sf::Vector2f(780, 700), sf::Color::White);
-
+    Border harvestMetal(sf::Vector2f(1355, 675), sf::Vector2f(780,700), sf::Color::White);
     sf::Texture metalTexture; // more code below needed
     if (metalTexture.loadFromFile("Textures/miningspot2.png")) {
         harvestMetal.setTexture(&metalTexture);
@@ -232,6 +243,11 @@ int main()
     sf::Text metalQuantity;
     sf::Text fishText;
     sf::Text fishQuantity;
+    sf::Text ingotText;
+    sf::Text ingotQuantity;
+    sf::Text fuelText;
+    sf::Text fuelQuantity;
+
 
     if (font.loadFromFile("Fonts/dotumche-pixel.ttf"))
     {
@@ -239,6 +255,8 @@ int main()
         woodQuantity.setFont(font);
         metalText.setFont(font);
         metalQuantity.setFont(font);
+        ingotText.setFont(font);
+        ingotQuantity.setFont(font);
         fishText.setFont(font);
         fishQuantity.setFont(font);
     }
@@ -255,7 +273,12 @@ int main()
     metalQuantity.setCharacterSize(30);
     metalQuantity.setFillColor(sf::Color::White);
     metalQuantity.setStyle(sf::Text::Bold);
-    metalQuantity.setPosition({ 1450,750 });
+    metalQuantity.setPosition({ 1450,350 });
+
+    ingotQuantity.setCharacterSize(30);
+    ingotQuantity.setFillColor(sf::Color::White);
+    ingotQuantity.setStyle(sf::Text::Bold);
+    ingotQuantity.setPosition({ 1450,250 });
 
     fishQuantity.setCharacterSize(30);
     fishQuantity.setFillColor(sf::Color::Black);
@@ -273,6 +296,12 @@ int main()
     metalText.setFillColor(sf::Color::White);
     metalText.setStyle(sf::Text::Bold);
     metalText.setPosition({ 1450,600 });
+
+    ingotText.setString("Hold \"x\" to Smelt Ore");
+    ingotText.setCharacterSize(30);
+    ingotText.setFillColor(sf::Color::White);
+    ingotText.setStyle(sf::Text::Bold);
+    ingotText.setPosition({ 1420,0 });
 
     fishText.setString("Hold \"x\" to Harvest Fish");
     fishText.setCharacterSize(30);
@@ -388,7 +417,11 @@ int main()
 
         woodQuantity.setString("Wood Quantity: " + std::to_string(character.getWoodQuantity()));
 
-        metalQuantity.setString("Metal Quantity: " + std::to_string(character.getMetalQuantity()));
+        metalQuantity.setString("Ore Quantity: " + std::to_string(character.getMetalQuantity()));
+
+        ingotQuantity.setString("Metal Quantity: " + std::to_string(character.getIngotQuantity()));
+
+        fuelQuantity.setString("Fuel Quantity: " + std::to_string(character.getFuelQuantity()));
 
         fishQuantity.setString("Fish Quantity: " + std::to_string(character.getFishQuantity()));
 
@@ -421,6 +454,14 @@ int main()
         if (character.getGlobalBounds().intersects(harvestMetal.getGlobalBounds()) && character.getHasPickaxe() == true) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
                 character.incrementMetalQuantity();
+            }
+        }
+        if (character.getGlobalBounds().intersects(harvestIngot.getGlobalBounds()) && character.getMetalQuantity() >= 5 
+            && character.getFuelQuantity() >= 1) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+                character.incrementIngotQuantity();
+                character.setMetalQuantity(character.getMetalQuantity() - 5);
+                character.setFuelQuantity(character.getFuelQuantity() - 1);
             }
         }
         if (character.getGlobalBounds().intersects(harvestFish.getGlobalBounds()) && character.getHasFishingRod() == true) {
@@ -483,12 +524,13 @@ int main()
         window.draw(harvestFish);
         window.draw(woodText);
         window.draw(metalText);
-        window.draw(fishText);
+        window.draw(ingotText);
         window.draw(woodQuantity);
         window.draw(metalQuantity);
-        window.draw(fishQuantity);
+        window.draw(ingotQuantity);
         window.draw(harvestTree);
         window.draw(harvestMetal);
+        window.draw(harvestIngot);
         compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
         window.draw(compass);
         window.draw(character);
