@@ -141,7 +141,7 @@ int main()
     }
 
     // TREE TEXTURE
-    Border harvestTree(sf::Vector2f(-1050, 75), sf::Vector2f(700, 700), sf::Color::White);
+    Border harvestTree(sf::Vector2f(-1050, -300), sf::Vector2f(700, 700), sf::Color::White);
 
     sf::Texture treeTexture;
     if (treeTexture.loadFromFile("Textures/treeForHarvestGood.png")) {
@@ -231,6 +231,16 @@ int main()
         std::cerr << "Failed to load fish hut texture!" << std::endl;
     }
 
+    Border crafter(sf::Vector2f(-1050, 700), sf::Vector2f(200, 200), sf::Color::White);
+
+    sf::Texture crafterTexture;
+    if (crafterTexture.loadFromFile("Textures/crafter.png")) {
+        crafter.setTexture(&crafterTexture);
+    }
+    else {
+        std::cerr << "Failed to load fish hut texture!" << std::endl;
+    }
+
     Border harvestFish(sf::Vector2f(-850, 2110), sf::Vector2f(600, 365), sf::Color::Transparent);
 
     harvestFish.setOutlineColor({ 73,164,189 });
@@ -268,7 +278,7 @@ int main()
     woodQuantity.setCharacterSize(30);
     woodQuantity.setFillColor(sf::Color::White);
     woodQuantity.setStyle(sf::Text::Bold);
-    woodQuantity.setPosition({-950,750});
+    woodQuantity.setPosition({-950,425});
 
     metalQuantity.setCharacterSize(30);
     metalQuantity.setFillColor(sf::Color::White);
@@ -289,7 +299,7 @@ int main()
     woodText.setCharacterSize(30);
     woodText.setFillColor(sf::Color::White);
     woodText.setStyle(sf::Text::Bold);
-    woodText.setPosition({-950,700});
+    woodText.setPosition({-950,375});
 
     metalText.setString("Hold \"x\" to Harvest Ore");
     metalText.setCharacterSize(30);
@@ -517,10 +527,11 @@ int main()
             window.draw(axeBuried);
         }
         if (character.getHasFishingRod() == false) {
-            //window.draw(fishingRod);
+            window.draw(fishingRod);
         }
 
         window.draw(fishHut);
+        window.draw(crafter);
         window.draw(harvestFish);
         window.draw(woodText);
         window.draw(metalText);
