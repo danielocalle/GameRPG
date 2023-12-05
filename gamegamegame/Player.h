@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SFML/Graphics.hpp"
+#include <iostream>
 
 class Player : public sf::RectangleShape
 {
@@ -15,6 +16,13 @@ public:
 		metalQuantity = 0.0;
 		ingotQuantity = 0;
 		fishQuantity = 0.0;
+		fuelQuantity = 0.0;
+		if (texture.loadFromFile("Textures/ncrguy.png")) {
+			sf::RectangleShape::setTexture(&texture);
+		}
+		else {
+			std::cerr << "Failed to load texture!" << std::endl;
+		}
 	}
 	Player(const sf::Vector2f& pos, const sf::Vector2f& size) :
 		sf::RectangleShape(size)
@@ -28,11 +36,13 @@ public:
 		metalQuantity = 0.0;
 		ingotQuantity = 0;
 		fishQuantity = 0.0;
-	}
-
-	void setTexture(const sf::Texture* texture)
-	{
-		sf::RectangleShape::setTexture(texture);
+		fuelQuantity = 0.0;
+		if (texture.loadFromFile("Textures/ncrguy.png")) {
+			sf::RectangleShape::setTexture(&texture);
+		}
+		else {
+			std::cerr << "Failed to load texture!" << std::endl;
+		}
 	}
 
 	int getWoodQuantity() {
@@ -91,6 +101,10 @@ public:
 		hasFishingRod = newHasFishingRod;
 	}
 
+	void setHasBucket(bool newHasBucket) {
+		hasBucket = newHasBucket;
+	}
+
 	bool getHasAxe()
 	{
 		return hasAxe;
@@ -112,11 +126,12 @@ public:
 	}
 
 private:
+	sf::Texture texture;
+
 	bool hasAxe;
 	bool hasPickaxe;
 	bool hasFishingRod;
 	bool hasBucket;
-
 
 	double woodQuantity;
 	double metalQuantity;
