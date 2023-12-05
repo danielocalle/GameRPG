@@ -53,6 +53,10 @@ public:
 		fishQuantity = fishQuantity + 0.006;
 	}
 
+	void setHasAxe(bool newHasAxe) {
+		hasAxe = newHasAxe;
+	}
+
 	bool getHasAxe()
 	{
 		return hasAxe;
