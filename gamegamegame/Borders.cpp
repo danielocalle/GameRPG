@@ -1,5 +1,8 @@
 #include "Borders.h"
 
+// makes border objects solid, so player cannot pass through them
+// checks if the next frame will make the player and the border intersect (occupy the same space) and if so, sets player's 
+// relecant velocity to zero, so they cannot move in that direction.
 void Border::enableCollision(Player player, sf::Vector2f& velocity) const
 {
     sf::FloatRect playerBounds = player.getGlobalBounds();
@@ -18,7 +21,6 @@ void Border::enableCollision(Player player, sf::Vector2f& velocity) const
             && playerBounds.left + playerBounds.width > wallBounds.left)
         {
             velocity.y = 0.f;
-            //std::cout << "Bottom collision works!" << std::endl;
         }
         // TOP COLLISION
         if (playerBounds.top > wallBounds.top
@@ -27,7 +29,6 @@ void Border::enableCollision(Player player, sf::Vector2f& velocity) const
             && playerBounds.left + playerBounds.width > wallBounds.left)
         {
             velocity.y = 0.f;
-            //std::cout << "Top collision works!" << std::endl;
         }
         // RIGHT COLLISION
         if (playerBounds.left < wallBounds.left
@@ -36,7 +37,6 @@ void Border::enableCollision(Player player, sf::Vector2f& velocity) const
             && playerBounds.top + playerBounds.height > wallBounds.top)
         {
             velocity.x = 0.f;
-            //std::cout << "Right collision works!" << std::endl;
         }
         // LEFT COLLISION
         if (playerBounds.left > wallBounds.left
@@ -45,11 +45,11 @@ void Border::enableCollision(Player player, sf::Vector2f& velocity) const
             && playerBounds.top + playerBounds.height > wallBounds.top)
         {
             velocity.x = 0.f;
-            //std::cout << "Left collision works!" << std::endl;
         }
     }
 }
 
+// same thing as border collision
 void Door::enableCollision(Player player, sf::Vector2f& velocity) const
 {
     sf::FloatRect playerBounds = player.getGlobalBounds();
