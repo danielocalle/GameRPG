@@ -99,13 +99,13 @@ void Game::runGame()
         fuelQuantity2.setString("Fuel: " + std::to_string(character.getFuelQuantity()));
         fishQuantity2.setString("Fish: " + std::to_string(character.getFishQuantity()));
 
-        shipIngotQuantity.setString(std::to_string(brokenShip.getIngotQuantity()) + "/50 Metal");
-        shipFuelQuantity.setString(std::to_string(brokenShip.getFuelQuantity()) + "/30 Fuel");
-        shipFishQuantity.setString(std::to_string(brokenShip.getFishQuantity()) + "/100 Fish");
+        shipIngotQuantity.setString(std::to_string(brokenShip.getIngotQuantity()) + "/10 Metal");
+        shipFuelQuantity.setString(std::to_string(brokenShip.getFuelQuantity()) + "/10 Fuel");
+        shipFishQuantity.setString(std::to_string(brokenShip.getFishQuantity()) + "/10 Fish");
 
-        shipIngotQuantity2.setString(std::to_string(brokenShip.getIngotQuantity()) + "/50 Metal");
-        shipFuelQuantity2.setString(std::to_string(brokenShip.getFuelQuantity()) + "/30 Fuel");
-        shipFishQuantity2.setString(std::to_string(brokenShip.getFishQuantity()) + "/100 Fish");
+        shipIngotQuantity2.setString(std::to_string(brokenShip.getIngotQuantity()) + "/10 Metal");
+        shipFuelQuantity2.setString(std::to_string(brokenShip.getFuelQuantity()) + "/10 Fuel");
+        shipFishQuantity2.setString(std::to_string(brokenShip.getFishQuantity()) + "/10 Fish");
 
         interactWithObjects();
 

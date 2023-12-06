@@ -18,11 +18,10 @@ int main()
     //t.testGetWoodQuantity();
     //t.testIncrementFishQuantity();
     //t.testHasPickaxe();
+    //t2.testThresholds();
+    //t2.testIsRepaired();
 
     app.runGame();
-
-    t2.testThresholds();
-    t2.testIsRepaired();
 
     return 0;
 }
