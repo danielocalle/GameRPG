@@ -17,7 +17,7 @@ void Test::testGetWoodQuantity()
 
 void Test::testIncrementFishQuantity()
 {
-	// have to repeat incrementFishQuantity many times because it only increments by 0.106 and
+	// have to repeat incrementFishQuantity many times because it only increments by a small amount and
 	// the getFishQuantity returns an integer.
 	for (int i = 0; i < 50; i++) {
 		incrementFishQuantity();

@@ -16,11 +16,6 @@ public:
 	void testIncrementFishQuantity();
 
 	void testHasPickaxe();
-
-// other two test collision and interaction. There are messages in the Borders.cpp enableCollision()
-// function and in the Game.cpp interactWithObjects() function.
-
-
 };
 
 class Test2 : public Spaceship
