@@ -1,58 +1,57 @@
 #include "Game.h"
 
 
-
 void Game::runGame()
 {
     window.setFramerateLimit(120);
 
+    // Movement stuff
     float dt = 0.0;
     sf::Clock dt_clock;
 
+    // Track time it takes to escape earth
     sf::Clock clock;
 
+    // Used for collision
     sf::FloatRect nextPos;
-
+    
+    // Setting movement speed, and velocity is used for movement
     const float movementSpeed = 350.f;
     sf::Vector2f velocity;
 
+    // Spawning the character in the starting spawn room
     character.setPosition(550,-3700);
 
+    // Loop for the actual game
     while (window.isOpen()) {
 
         dt = dt_clock.restart().asSeconds();
 
+        // Event to stop the game if window is closed
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
-        {
-            character.setPosition(sf::Vector2f(600, 5350));
-        }
-
         velocity.y = 0.f;
         velocity.x = 0.f;
 
+        // Movement keys
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            //character.move(0, 0.1);
             velocity.y += -movementSpeed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            //character.move(0, -0.1);
             velocity.y += movementSpeed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            //character.move(-0.1, 0);
             velocity.x += -movementSpeed * dt;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            //character.move(0.1, 0);
             velocity.x += movementSpeed * dt;
         }
 
+        // Mirroring the player texture to give the appearance of directional movement
         if (velocity.x < 0) {
             character.setScale(1, 1);
         }
@@ -60,20 +59,25 @@ void Game::runGame()
             character.setScale(-1, 1);
         }
 
+        // Loop for accessing the fixed walls and applying collision to them
         for (auto& wall : borders)
         {
             wall.enableCollision(character, velocity);
         }
 
+        // Separate collision for the doors
         leftRoomDoor.enableCollision(character, velocity);
         rightRoomDoor.enableCollision(character, velocity);
         topRoomDoor.enableCollision(character, velocity);
 
+        // moving the player using the velocity set above with WASD
         character.move(velocity);
 
+        // Keeps the camera centered on the player
         camera.setCenter(character.getPosition().x + 25, character.getPosition().y + 50);
         window.setView(camera);
 
+        // Moves the doors when conditions are met
         if (character.getHasAxe() == true)
         {
             leftRoomDoor.move(0, -500);
@@ -87,6 +91,7 @@ void Game::runGame()
             topRoomDoor.move(0, -1600);
         }
 
+        // UI Quantities
         woodQuantity.setString("Wood: " + std::to_string(character.getWoodQuantity()));
         metalQuantity.setString("Ore: " + std::to_string(character.getMetalQuantity()));
         ingotQuantity.setString("Metal: " + std::to_string(character.getIngotQuantity()));
@@ -107,17 +112,17 @@ void Game::runGame()
         shipFuelQuantity2.setString(std::to_string(brokenShip.getFuelQuantity()) + "/10 Fuel");
         shipFishQuantity2.setString(std::to_string(brokenShip.getFishQuantity()) + "/10 Fish");
 
+        // Interacting with all the harvesting stuff, and crafting
         interactWithObjects();
 
-        // Did not have time to figure out passing in the clock and stuff, so just brought this outside of interact with objects, same with the initial teleport.
-        // Just made it a little bit easier, still works similarly, if not identical
-
+        // Interact with teleporter in spawn room
         if (character.getGlobalBounds().intersects(teleportToSpawn.getGlobalBounds())) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
                 character.setPosition(500, 500);
                 clock.restart();
             }
         }
+        // Interact with the ship when at the end of the game
         if (character.getGlobalBounds().intersects(ship.getGlobalBounds())) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && brokenShip.isRepaired() == true)
             {
@@ -128,22 +133,22 @@ void Game::runGame()
                 endGameTotalCompletionTime.setString("It took you " + temp + " seconds to escape!");
             }
         }
+        // Draw all other objects, pass in clock to allow me to display the time at the top of the screen
         drawObjects(clock);
     }
 }
 
+// General if statements for certain actions
 void Game::interactWithObjects()
 {
     if (character.getGlobalBounds().intersects(harvestTree.getGlobalBounds()) && character.getHasAxe() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementWoodQuantity();
-            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestMetal.getGlobalBounds()) && character.getHasPickaxe() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementMetalQuantity();
-            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestIngot.getGlobalBounds()) && character.getMetalQuantity() >= 5
@@ -152,20 +157,17 @@ void Game::interactWithObjects()
             character.incrementIngotQuantity();
             character.setMetalQuantity(character.getMetalQuantity() - 5);
             character.setFuelQuantity(character.getFuelQuantity() - 1);
-            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestFish.getGlobalBounds()) && character.getHasFishingRod() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementFishQuantity();
-            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestFuel.getGlobalBounds()) && character.getHasBucket() == true
         && character.getFuelQuantity() < 10) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementFuelQuantity();
-            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(axeBuried.getGlobalBounds()))
@@ -198,7 +200,6 @@ void Game::interactWithObjects()
             character.setWoodQuantity(character.getWoodQuantity() - 25);
         }
     }
-
     if (character.getGlobalBounds().intersects(ship.getGlobalBounds()))
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && (character.getFuelQuantity() >= 1 || character.getIngotQuantity() >= 1
@@ -223,6 +224,7 @@ void Game::interactWithObjects()
     }
 }
 
+// Borders that line up with the background texture
 void Game::createBorders()
 {
     // MIDDLE ROOM BORDERS
@@ -262,6 +264,7 @@ void Game::createBorders()
     Border endRoomLeft(sf::Vector2f(-200, 4900), sf::Vector2f(100, 900), sf::Color::White);
     Border endRoomBottom(sf::Vector2f(-100, 5700), sf::Vector2f(1400, 100), sf::Color::White);
 
+    // Pushing all the borders to a vector, which is a private member of Game
     borders.push_back(mRoomTL);
     borders.push_back(mRoomTR);
     borders.push_back(mRoomLT);
@@ -291,6 +294,7 @@ void Game::createBorders()
     borders.push_back(endRoomBottom);
 }
 
+// Intitializing textures for most objects, used in the constructor of Game
 void Game::createObjects()
 {
     harvestTree.loadTexture("Textures/treeForHarvestGood.png");
@@ -330,6 +334,7 @@ void Game::createPlayer()
     character.setOrigin(sf::Vector2f(character.getSize().x / 2, character.getSize().y / 2));
 }
 
+// Initializing strings for fixed text, used in the constructor for Game
 void Game::createText()
 {
     woodText.setString("Hold \"x\" to Harvest Wood");
@@ -351,6 +356,7 @@ void Game::createText()
     endGameText.setString("You Escaped Earth!");
 }
 
+// Initializing the main background and the end room background
 void Game::createBackground()
 {
     worldBackgroundTexture.loadFromFile("Textures/backgroundHoleFilled.png");
@@ -368,6 +374,7 @@ void Game::createBackground()
     endRoomBackground.setScale(2.75, 2);
 }
 
+// Draws most objects, used in the main runGame() loop
 void Game::drawObjects(sf::Clock& clock)
 {
     window.clear();
@@ -460,6 +467,9 @@ void Game::drawObjects(sf::Clock& clock)
     //    window.draw(wall);
     //}
 
+
+    // Mimic UI just by moving all the UI objects with the player
+
     compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
     
     fishQuantity.setPosition(character.getPosition().x - 475, character.getPosition().y - 325);
@@ -493,6 +503,7 @@ void Game::drawObjects(sf::Clock& clock)
     ongoingClock.setPosition(character.getPosition().x - 60, character.getPosition().y - 320);
     ongoingClock2.setPosition(character.getPosition().x - 58, character.getPosition().y - 318);
 
+    // Only draw UI if player is inside the main world, using a big object that spans the main world area
     if (character.getGlobalBounds().intersects(inMainAreaChecker.getGlobalBounds()))
     {
         window.draw(compass);
@@ -538,11 +549,3 @@ void Game::drawObjects(sf::Clock& clock)
     window.draw(character);
     window.display();
 }
-
-//void Game::createEndRoom()
-//{
-//    for (auto& wall : borders)
-//    {
-//        window.draw(endRoomBackground);
-//    }
-//}

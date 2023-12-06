@@ -19,12 +19,15 @@ public:
 	~Game() {
 	}
 
+	// Run game function
 	void runGame();
 
+	// Vector of the fixed walls you collide with
 	const std::vector<Border>& getBorders() const {
 		return borders;
 	}
 
+	// A couple background textures for a couple different rooms
 	sf::Sprite getWorldBackground() {
 		return worldBackground;
 	}
@@ -50,14 +53,18 @@ private:
 	Player character{ sf::Vector2f(400, 500), sf::Vector2f(70, 80) };
 	Spaceship brokenShip;
 
+	// Constructor functions
 	void createBorders();
 	void createObjects();
 	void createPlayer();
 	void createText();
 	void createBackground();
+
+	// Loop functions used in runGame()
 	void drawObjects(sf::Clock& clock);
 	void interactWithObjects();
 
+	// Interactable objects
 	Object harvestTree{ sf::Vector2f(-1050, -300), sf::Vector2f(700, 700), sf::Color::White };
 	Object harvestIngot{ sf::Vector2f(1355, -400), sf::Vector2f(600, 400), sf::Color::White };
 	Object harvestMetal{ sf::Vector2f(1355, 675), sf::Vector2f(780, 700), sf::Color::White };
@@ -70,14 +77,17 @@ private:
 	Object harvestFish{ sf::Vector2f(-850, 2110), sf::Vector2f(600, 365), sf::Color::Transparent };
 
 	Object crafter{ sf::Vector2f(-800, 800), sf::Vector2f(100, 80), sf::Color::White };
-	GameText pickaxeRecipe{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(-950, 900) };
 
+	// Text for recipes
+	GameText pickaxeRecipe{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(-950, 900) };
 	GameText furnaceRecipe{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1375, 0) };
 
+	// Doors to block access to rooms until certain criteria are met
 	Door leftRoomDoor{ sf::Vector2f(-20, 435), sf::Vector2f(80, 125), sf::Color::White };
 	Door rightRoomDoor{ sf::Vector2f(940, 445), sf::Vector2f(75, 105), sf::Color::White };
 	Door topRoomDoor{ sf::Vector2f(434, -40), sf::Vector2f(125, 110), sf::Color::White };
 
+	// Describing text helping the player know what to do
 	GameText woodText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(-950,375) };
 	GameText metalText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,600) };
 	GameText fishText{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(-825,1990) };
@@ -126,6 +136,5 @@ private:
 
 	// GAME END
 	GameText endGameText{ 30, sf::Color::Yellow, sf::Text::Bold, sf::Vector2f(400, 5380) };
-
 	GameText endGameTotalCompletionTime{ 30, sf::Color::Yellow, sf::Text::Bold, sf::Vector2f(200, 5430) };
 };
