@@ -11,6 +11,7 @@ int main()
     Game app;
 
     Test t;
+    Test2 t2;
 
     // TEST CASES - Commented out so as to not mess with game values
 
@@ -19,6 +20,9 @@ int main()
     //t.testHasPickaxe();
 
     app.runGame();
+
+    t2.testThresholds();
+    t2.testIsRepaired();
 
     return 0;
 }

@@ -47,3 +47,51 @@ void Test::testHasPickaxe()
 		std::cout << "getHasPickaxe function doesn't work!" << std::endl;
 	}
 }
+
+void Test2::testThresholds()
+{
+	setFuelQuantity(10);
+	setFishQuantity(5);
+	setIngotQuantity(20);
+
+	if (fuelThreshold() == true)
+	{
+		std::cout << "fuelThreshold is working! (>=10)" << std::endl;
+	}
+	else
+	{
+		std::cout << "fuelThreshold is NOT working! (<10)" << std::endl;
+	}
+	if (fishThreshold() == false)
+	{
+		std::cout << "fishThreshold is working! (<10)" << std::endl;
+	}
+	else
+	{
+		std::cout << "fishThreshold is working! (>=10)" << std::endl;
+	}
+	if (ingotThreshold() == true)
+	{
+		std::cout << "ingotThreshold is working! (>=10)" << std::endl;
+	}
+	else
+	{
+		std::cout << "ingotThreshold is NOT working! (<10)" << std::endl;
+	}
+}
+
+void Test2::testIsRepaired()
+{
+	setFuelQuantity(10);
+	setFishQuantity(10);
+	setIngotQuantity(10);
+
+	if (isRepaired() == true)
+	{
+		std::cout << "isRepaired is working! (resource thresholds met)" << std::endl;
+	}
+	else
+	{
+		std::cout << "isRepaired is NOT working! (resource thresholds not met)" << std::endl;
+	}
+}

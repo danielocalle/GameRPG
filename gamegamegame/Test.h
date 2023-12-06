@@ -23,3 +23,11 @@ public:
 
 };
 
+class Test2 : public Spaceship
+{
+public:
+
+	void testThresholds();
+
+	void testIsRepaired();
+};
