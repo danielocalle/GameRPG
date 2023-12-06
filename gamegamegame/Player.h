@@ -56,19 +56,19 @@ public:
 	}
 
 	void incrementWoodQuantity() {
-		woodQuantity += 0.11;
+		woodQuantity += 0.04;
 	}
 	void incrementMetalQuantity() {
-		metalQuantity += 0.108;
+		metalQuantity += 0.05;
 	}
 	virtual void incrementFishQuantity() {
-		fishQuantity += 0.106;
+		fishQuantity += 0.03;
 	}
 	void incrementIngotQuantity() {
 		ingotQuantity++;
 	}
 	virtual void incrementFuelQuantity() {
-		fuelQuantity += 0.02;
+		fuelQuantity += 0.045;
 	}
 
 protected:

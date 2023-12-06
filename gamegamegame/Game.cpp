@@ -9,23 +9,12 @@ void Game::runGame()
     float dt = 0.0;
     sf::Clock dt_clock;
 
+    sf::Clock clock;
+
     sf::FloatRect nextPos;
 
-    const float movementSpeed = 450.f;
+    const float movementSpeed = 350.f;
     sf::Vector2f velocity;
-
-    //while (!sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
-    //    sf::Event startEvent;
-    //    while (startWindow.pollEvent(startEvent)) {
-    //        if (startEvent.type == sf::Event::Closed) {
-    //            startWindow.close();
-    //        }
-    //    }
-    //    startWindow.display();
-    //    startWindow.draw(gameStartInstructions);
-    //}
-
-    //startWindow.close();
 
     character.setPosition(500,-3600);
 
@@ -119,27 +108,45 @@ void Game::runGame()
         shipFishQuantity2.setString(std::to_string(brokenShip.getFishQuantity()) + "/100 Fish");
 
         interactWithObjects();
-        drawObjects();
+
+        // Did not have time to figure out passing in the clock and stuff, so just brought this outside of interact with objects, same with the initial teleport.
+        // Just made it a little bit easier, still works similarly, if not identical
+
+        if (character.getGlobalBounds().intersects(teleportToSpawn.getGlobalBounds())) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+                character.setPosition(500, 500);
+                clock.restart();
+            }
+        }
+        if (character.getGlobalBounds().intersects(ship.getGlobalBounds())) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && brokenShip.isRepaired() == true)
+            {
+                /// teleport to ending room
+                character.setPosition(sf::Vector2f(600, 5350));
+                std::string temp = std::to_string(clock.getElapsedTime().asSeconds());
+                temp.erase(temp.length() - 3);
+                endGameTotalCompletionTime.setString("It took you " + temp + " seconds to escape!");
+            }
+        }
+
+        drawObjects(clock);
     }
+
+
 }
 
 void Game::interactWithObjects()
 {
-    if (character.getGlobalBounds().intersects(teleportToSpawn.getGlobalBounds())) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
-            character.setPosition(500, 500);
-        }
-    }
     if (character.getGlobalBounds().intersects(harvestTree.getGlobalBounds()) && character.getHasAxe() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementWoodQuantity();
-            std::cout << "interactWithObjects function works!" << std::endl;
+            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestMetal.getGlobalBounds()) && character.getHasPickaxe() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementMetalQuantity();
-            std::cout << "interactWithObjects function works!" << std::endl;
+            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestIngot.getGlobalBounds()) && character.getMetalQuantity() >= 5
@@ -148,20 +155,20 @@ void Game::interactWithObjects()
             character.incrementIngotQuantity();
             character.setMetalQuantity(character.getMetalQuantity() - 5);
             character.setFuelQuantity(character.getFuelQuantity() - 1);
-            std::cout << "interactWithObjects function works!" << std::endl;
+            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestFish.getGlobalBounds()) && character.getHasFishingRod() == true) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementFishQuantity();
-            std::cout << "interactWithObjects function works!" << std::endl;
+            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(harvestFuel.getGlobalBounds()) && character.getHasBucket() == true
         && character.getFuelQuantity() < 10) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
             character.incrementFuelQuantity();
-            std::cout << "interactWithObjects function works!" << std::endl;
+            //std::cout << "interactWithObjects function works!" << std::endl;
         }
     }
     if (character.getGlobalBounds().intersects(axeBuried.getGlobalBounds()))
@@ -215,11 +222,6 @@ void Game::interactWithObjects()
                 character.setFishQuantity(character.getFishQuantity() - 1);
                 brokenShip.incrementFishQuantity();
             }
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && brokenShip.isRepaired() == true)
-        {
-            character.setPosition(sf::Vector2f(600, 5350));
-            /// teleport to ending room
         }
     }
 }
@@ -336,6 +338,7 @@ void Game::createText()
     fishText.setString("Hold \"x\" to Harvest Fish");
     ingotText.setString("Hold \"x\" to Smelt Ore");
     fuelText.setString("Hold \"x\" to Pump Fuel");
+    pickaxeRecipe.setString("25 Wood = Pickaxe");
     std::string temp = "          ~~~ Instructions ~~~\n\nYou have crash landed on an island,\n";
     temp += "you must complete certain objectives to\nunlock new rooms and progress\n";
     temp += "through the game.\nYour first objective is to find the axe.\n";
@@ -345,6 +348,7 @@ void Game::createText()
     gameStartInstructions.setString(temp);
     shipRepairs.setString("Ship Repairs");
     shipRepairs2.setString("Ship Repairs");
+    endGameText.setString("You Escaped Earth!");
 }
 
 void Game::createBackground()
@@ -364,7 +368,7 @@ void Game::createBackground()
     endRoomBackground.setScale(2.75, 2);
 }
 
-void Game::drawObjects()
+void Game::drawObjects(sf::Clock& clock)
 {
     window.clear();
     window.draw(worldBackground);
@@ -420,6 +424,10 @@ void Game::drawObjects()
     window.draw(gameStartInstructions);
     window.draw(teleportToSpawn);
 
+    window.draw(endGameText);
+
+    window.draw(endGameTotalCompletionTime);
+
     window.draw(woodText);
     window.draw(metalText);
     window.draw(ingotText);
@@ -442,13 +450,13 @@ void Game::drawObjects()
     window.draw(harvestFish);
 
     window.draw(crafter);
+    window.draw(pickaxeRecipe);
 
     //for (auto& wall : borders) {
     //    window.draw(wall);
     //}
 
     compass.setPosition(character.getPosition().x - 475, character.getPosition().y + 275);
-    window.draw(compass);
     
     fishQuantity.setPosition(character.getPosition().x - 475, character.getPosition().y - 325);
     woodQuantity.setPosition(character.getPosition().x - 475, character.getPosition().y - 275);
@@ -473,47 +481,64 @@ void Game::drawObjects()
     shipRepairs.setPosition(character.getPosition().x + 275, character.getPosition().y - 325);
     shipRepairs2.setPosition(character.getPosition().x + 277, character.getPosition().y - 323);
 
-    window.draw(woodQuantity2);
-    window.draw(metalQuantity2);
-    window.draw(ingotQuantity2);
-    window.draw(fishQuantity2);
-    window.draw(fuelQuantity2);
-
-    window.draw(woodQuantity);
-    window.draw(metalQuantity);
-    window.draw(ingotQuantity);
-    window.draw(fishQuantity);
-    window.draw(fuelQuantity);
-
-    window.draw(shipIngotQuantity2);
-    window.draw(shipFishQuantity2);
-    window.draw(shipFuelQuantity2);
-
-    window.draw(shipIngotQuantity);
-    window.draw(shipFishQuantity);
-    window.draw(shipFuelQuantity);
-
-    window.draw(shipRepairs2);
-    window.draw(shipRepairs);
-
     axeUI.setPosition(character.getPosition().x + 180, character.getPosition().y + 335);
     fishingRodUI.setPosition(character.getPosition().x + 400, character.getPosition().y + 375);
     pickaxeUI.setPosition(character.getPosition().x + 385, character.getPosition().y + 350);
     canisterUI.setPosition(character.getPosition().x + 490, character.getPosition().y + 365);
 
-    window.draw(axeUI);
-    window.draw(fishingRodUI);
-    window.draw(pickaxeUI);
-    window.draw(canisterUI);
+    ongoingClock.setPosition(character.getPosition().x - 60, character.getPosition().y - 320);
+    ongoingClock2.setPosition(character.getPosition().x - 58, character.getPosition().y - 318);
+
+    if (character.getGlobalBounds().intersects(inMainAreaChecker.getGlobalBounds()))
+    {
+        window.draw(compass);
+
+        window.draw(woodQuantity2);
+        window.draw(metalQuantity2);
+        window.draw(ingotQuantity2);
+        window.draw(fishQuantity2);
+        window.draw(fuelQuantity2);
+
+        window.draw(woodQuantity);
+        window.draw(metalQuantity);
+        window.draw(ingotQuantity);
+        window.draw(fishQuantity);
+        window.draw(fuelQuantity);
+
+        window.draw(shipIngotQuantity2);
+        window.draw(shipFishQuantity2);
+        window.draw(shipFuelQuantity2);
+
+        window.draw(shipIngotQuantity);
+        window.draw(shipFishQuantity);
+        window.draw(shipFuelQuantity);
+
+        window.draw(shipRepairs2);
+        window.draw(shipRepairs);
+
+        window.draw(axeUI);
+        window.draw(fishingRodUI);
+        window.draw(pickaxeUI);
+        window.draw(canisterUI);
+
+        std::string temp = std::to_string(clock.getElapsedTime().asSeconds());
+
+        temp.erase(temp.length() - 3);
+
+        ongoingClock.setString(temp);
+        ongoingClock2.setString(temp);
+        window.draw(ongoingClock2);
+        window.draw(ongoingClock);
+    }
 
     window.draw(character);
     window.display();
 }
 
-void Game::createEndRoom()
-{
-    for (auto& wall : borders)
-    {
-        window.draw(endRoomBackground);
-    }
-}
+//void Game::createEndRoom()
+//{
+//    for (auto& wall : borders)
+//    {
+//        window.draw(endRoomBackground);
+//    }
+//}

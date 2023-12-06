@@ -33,7 +33,7 @@ public:
 		return endRoomBackground;
 	}
 
-	void createEndRoom();
+	//void createEndRoom();
 
 private:
 	std::vector<Border> borders;
@@ -56,7 +56,7 @@ private:
 	void createPlayer();
 	void createText();
 	void createBackground();
-	void drawObjects();
+	void drawObjects(sf::Clock& clock);
 	void interactWithObjects();
 
 	Object harvestTree{ sf::Vector2f(-1050, -300), sf::Vector2f(700, 700), sf::Color::White };
@@ -70,7 +70,8 @@ private:
 	Object fishHut{ sf::Vector2f(-700, 1450), sf::Vector2f(300, 400), sf::Color::White };
 	Object harvestFish{ sf::Vector2f(-850, 2110), sf::Vector2f(600, 365), sf::Color::Transparent };
 
-	Object crafter{ sf::Vector2f(-1050, 700), sf::Vector2f(100, 80), sf::Color::White };
+	Object crafter{ sf::Vector2f(-800, 800), sf::Vector2f(100, 80), sf::Color::White };
+	GameText pickaxeRecipe{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(-950, 900) };
 
 	Door leftRoomDoor{ sf::Vector2f(-20, 435), sf::Vector2f(80, 125), sf::Color::White };
 	Door rightRoomDoor{ sf::Vector2f(940, 445), sf::Vector2f(75, 105), sf::Color::White };
@@ -92,6 +93,8 @@ private:
 	Object canisterUI{ sf::Vector2f(1470, 1800), sf::Vector2f(50, 50), sf::Color::Black };
 	Object fishingRodUI{ sf::Vector2f(1470, 1800), sf::Vector2f(100, 100), sf::Color::Black };
 
+	Object inMainAreaChecker{ sf::Vector2f(-1885, -1980), sf::Vector2f(4770, 4980), sf::Color::Transparent };
+
 	GameText woodQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(-950,750) };
 	GameText metalQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,350) };
 	GameText fishQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,350) };
@@ -104,10 +107,6 @@ private:
 	GameText ingotQuantity2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(1450,250) };
 	GameText fuelQuantity2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(1450,350) };
 
-
-	// GAME START
-	GameText gameStartInstructions{ 30, sf::Color::Red, sf::Text::Bold, sf::Vector2f(150,-3950) };
-	Object teleportToSpawn{ sf::Vector2f(300, -3300), sf::Vector2f(600, 200), sf::Color::Magenta };
 	GameText shipFishQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,350) };
 	GameText shipIngotQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,250) };
 	GameText shipFuelQuantity{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,350) };
@@ -116,4 +115,16 @@ private:
 	GameText shipIngotQuantity2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(1450,250) };
 	GameText shipFuelQuantity2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(1450,350) };
 
+	GameText ongoingClock{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(200, 5430) };
+	GameText ongoingClock2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(200, 5430) };
+
+	// GAME START
+	GameText gameStartInstructions{ 30, sf::Color::Red, sf::Text::Bold, sf::Vector2f(150,-3950) };
+	Object teleportToSpawn{ sf::Vector2f(300, -3300), sf::Vector2f(600, 200), sf::Color::Magenta };
+
+
+	// GAME END
+	GameText endGameText{ 30, sf::Color::Yellow, sf::Text::Bold, sf::Vector2f(400, 5380) };
+
+	GameText endGameTotalCompletionTime{ 30, sf::Color::Yellow, sf::Text::Bold, sf::Vector2f(200, 5430) };
 };
