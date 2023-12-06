@@ -7,6 +7,8 @@
 class Inventory : public sf::RectangleShape {
 
 public:
+
+	// constructors
 	Inventory() {
 		woodQuantity = 0.0;
 		metalQuantity = 0.0;
@@ -23,6 +25,7 @@ public:
 		fuelQuantity = 0.0;
 	}
 
+	// getters
 	int getWoodQuantity() {
 		return woodQuantity;
 	}
@@ -39,6 +42,7 @@ public:
 		return fuelQuantity;
 	}
 
+	// setters
 	void setWoodQuantity(double newQuantity) {
 		woodQuantity = newQuantity;
 	}
@@ -55,19 +59,20 @@ public:
 		fuelQuantity = newQuantity;
 	}
 
+	// incrementers
 	void incrementWoodQuantity() {
 		woodQuantity += 0.04;
 	}
 	void incrementMetalQuantity() {
 		metalQuantity += 0.05;
 	}
-	virtual void incrementFishQuantity() {
+	virtual void incrementFishQuantity() { // virtual because spaceship class redefines it
 		fishQuantity += 0.03;
 	}
 	void incrementIngotQuantity() {
 		ingotQuantity++;
 	}
-	virtual void incrementFuelQuantity() {
+	virtual void incrementFuelQuantity() { // also virtual, same reason
 		fuelQuantity += 0.045;
 	}
 
@@ -81,6 +86,7 @@ protected:
 
 class Player : public Inventory {
 public:
+	// constructors
 	Player()
 	{
 		hasAxe = false;
@@ -109,39 +115,10 @@ public:
 		}
 	}
 
+	// setters
 	void setTexture(const sf::Texture* texture) {
 		sf::RectangleShape::setTexture(texture);
 	}
-
-	/*void incrementWoodQuantity() {
-		woodQuantity += 0.11;
-	}
-	void incrementMetalQuantity() {
-		metalQuantity += 0.108;
-	}
-	void incrementFishQuantity() {
-		fishQuantity += 0.106;
-	}
-	void incrementIngotQuantity() {
-		ingotQuantity++;
-	}
-	void incrementFuelQuantity() {
-		fuelQuantity += 0.02;
-	}*/
-
-	bool getHasAxe() {
-		return hasAxe;
-	}
-	bool getHasPickaxe() {
-		return hasPickaxe;
-	}
-	bool getHasFishingRod() {
-		return hasFishingRod;
-	}
-	bool getHasBucket() {
-		return hasBucket;
-	}
-
 	void setHasAxe(bool status) {
 		hasAxe = status;
 	}
@@ -153,6 +130,20 @@ public:
 	}
 	void setHasBucket(bool status) {
 		hasBucket = status;
+	}
+
+	// getters
+	bool getHasAxe() {
+		return hasAxe;
+	}
+	bool getHasPickaxe() {
+		return hasPickaxe;
+	}
+	bool getHasFishingRod() {
+		return hasFishingRod;
+	}
+	bool getHasBucket() {
+		return hasBucket;
 	}
 
 private:
@@ -167,6 +158,7 @@ private:
 class Spaceship : public Inventory
 {
 public:
+	// thresholds (check resource amount against amount defined needed to "repair" that section)
 	bool fishThreshold() {
 		if (fishQuantity >= 10) { // 100
 			return true;
@@ -192,6 +184,7 @@ public:
 		}
 	}
 
+	// if ship has enough resources to end the game (have all thresholds been met?)
 	bool isRepaired() {
 		if (fishThreshold() == true && ingotThreshold() == true && fuelThreshold() == true) {
 			return true;
@@ -201,6 +194,7 @@ public:
 		}
 	}
 
+	// incrementers
 	void incrementFishQuantity() {
 		fishQuantity++;
 	}
