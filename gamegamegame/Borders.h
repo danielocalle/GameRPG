@@ -77,6 +77,7 @@ private:
 class GameText : public sf::Text
 {
 public:
+	// constructors
 	GameText() {
 		// loads custom font (dotumche pixel) from file in fonts folder
 		if (font.loadFromFile("Fonts/dotumche-pixel.ttf")) {
