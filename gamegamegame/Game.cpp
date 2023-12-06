@@ -16,7 +16,7 @@ void Game::runGame()
     const float movementSpeed = 350.f;
     sf::Vector2f velocity;
 
-    character.setPosition(500,-3600);
+    character.setPosition(550,-3700);
 
     while (window.isOpen()) {
 
@@ -128,11 +128,8 @@ void Game::runGame()
                 endGameTotalCompletionTime.setString("It took you " + temp + " seconds to escape!");
             }
         }
-
         drawObjects(clock);
     }
-
-
 }
 
 void Game::interactWithObjects()
@@ -319,6 +316,8 @@ void Game::createObjects()
     rightRoomDoor.loadTexture("Textures/fence.png");
     topRoomDoor.loadTexture("Textures/volcanodoor.png");
 
+    gameName.loadTexture("Textures/worstvacation.png");
+
     // No texture, just outline for fishing area
 
     harvestFish.setOutlineColor({ 73,164,189 });
@@ -339,12 +338,13 @@ void Game::createText()
     ingotText.setString("Hold \"x\" to Smelt Ore");
     fuelText.setString("Hold \"x\" to Pump Fuel");
     pickaxeRecipe.setString("25 Wood = Pickaxe");
+    furnaceRecipe.setString("1 Fuel + 5 Ore = 1 Metal");
     std::string temp = "          ~~~ Instructions ~~~\n\nYou have crash landed on an island,\n";
     temp += "you must complete certain objectives to\nunlock new rooms and progress\n";
     temp += "through the game.\nYour first objective is to find the axe.\n";
     temp += "It was last seen onboard the ship.\nThe ship should be just South-East of spawn.\n\n";
     temp += "Press \"X\" to pick up objects.\nHold \"X\" to harvest resources.\n\n";
-    temp += "Stand on the magenta rectangle and\nPress \"X\" to teleport to spawn and\nbegin exploring.";
+    temp += "Stand on the orange rectangle and\nPress \"X\" to teleport to spawn and\nbegin exploring.";
     gameStartInstructions.setString(temp);
     shipRepairs.setString("Ship Repairs");
     shipRepairs2.setString("Ship Repairs");
@@ -424,6 +424,8 @@ void Game::drawObjects(sf::Clock& clock)
     window.draw(gameStartInstructions);
     window.draw(teleportToSpawn);
 
+    window.draw(gameName);
+
     window.draw(endGameText);
 
     window.draw(endGameTotalCompletionTime);
@@ -451,6 +453,8 @@ void Game::drawObjects(sf::Clock& clock)
 
     window.draw(crafter);
     window.draw(pickaxeRecipe);
+
+    window.draw(furnaceRecipe);
 
     //for (auto& wall : borders) {
     //    window.draw(wall);

@@ -7,13 +7,15 @@
 #include "Borders.h"
 #include "Game.h"
 
-class Test : public Inventory 
+class Test : public Player
 {
 public: 
 
-void testGetWoodQuantity(); // tests getWoodQuantity and setWoodQuantity
+	void testGetWoodQuantity(); // tests getWoodQuantity and setWoodQuantity
 
-void testIncrementFishQuantity();
+	void testIncrementFishQuantity();
+
+	void testHasPickaxe();
 
 // other two test collision and interaction. There are messages in the Borders.cpp enableCollision()
 // function and in the Game.cpp interactWithObjects() function.

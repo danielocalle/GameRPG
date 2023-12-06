@@ -44,7 +44,6 @@ private:
 	sf::Texture endRoomBackgroundTexture;
 	sf::Sprite endRoomBackground;
 
-	sf::RenderWindow startWindow{ sf::VideoMode(1100, 800), "RPG GAME" };
 	sf::RenderWindow window{ sf::VideoMode(1100, 800), "RPG GAME" };
 	sf::View camera{ {0, 0}, static_cast<sf::Vector2f>(window.getSize()) };
 
@@ -73,6 +72,8 @@ private:
 	Object crafter{ sf::Vector2f(-800, 800), sf::Vector2f(100, 80), sf::Color::White };
 	GameText pickaxeRecipe{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(-950, 900) };
 
+	GameText furnaceRecipe{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1375, 0) };
+
 	Door leftRoomDoor{ sf::Vector2f(-20, 435), sf::Vector2f(80, 125), sf::Color::White };
 	Door rightRoomDoor{ sf::Vector2f(940, 445), sf::Vector2f(75, 105), sf::Color::White };
 	Door topRoomDoor{ sf::Vector2f(434, -40), sf::Vector2f(125, 110), sf::Color::White };
@@ -80,7 +81,7 @@ private:
 	GameText woodText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(-950,375) };
 	GameText metalText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1450,600) };
 	GameText fishText{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(-825,1990) };
-	GameText ingotText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1420,0) };
+	GameText ingotText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(1420,75) };
 	GameText fuelText{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(170,-1170) };
 	GameText shipRepairs{ 30, sf::Color::White, sf::Text::Bold, sf::Vector2f(170,-1170) };
 	GameText shipRepairs2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(170,-1170) };
@@ -119,9 +120,9 @@ private:
 	GameText ongoingClock2{ 30, sf::Color::Black, sf::Text::Bold, sf::Vector2f(200, 5430) };
 
 	// GAME START
-	GameText gameStartInstructions{ 30, sf::Color::Red, sf::Text::Bold, sf::Vector2f(150,-3950) };
-	Object teleportToSpawn{ sf::Vector2f(300, -3300), sf::Vector2f(600, 200), sf::Color::Magenta };
-
+	GameText gameStartInstructions{ 30, sf::Color{255,190,25}, sf::Text::Bold, sf::Vector2f(150,-3950)};
+	Object teleportToSpawn{ sf::Vector2f(300, -3300), sf::Vector2f(600, 200), sf::Color{255,107,0} };
+	Object gameName{ sf::Vector2f(175, -4000), sf::Vector2f(800, 100), sf::Color::White };
 
 	// GAME END
 	GameText endGameText{ 30, sf::Color::Yellow, sf::Text::Bold, sf::Vector2f(400, 5380) };

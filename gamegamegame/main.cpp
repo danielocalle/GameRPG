@@ -12,10 +12,13 @@ int main()
 
     Test t;
 
-    app.runGame();
+    // TEST CASES - Commented out so as to not mess with game values
 
-    t.testGetWoodQuantity();
-    t.testIncrementFishQuantity();
+    //t.testGetWoodQuantity();
+    //t.testIncrementFishQuantity();
+    //t.testHasPickaxe();
+
+    app.runGame();
 
     return 0;
 }
